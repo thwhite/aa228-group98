@@ -6,11 +6,8 @@ class Agent:
         self.states = {"AC", 15, "absorb", 1}
         self.actions = {"don", 1, "doff", 0, "absorb", 1, "claws", 1, "healing", 1, "moonbeam", 1, "spell slots", 6}
 
-        def act(input):
-            action = Action()
+    def act(input):
+        action = Action()
 
-            return action
-
-
-
+        return action
 
