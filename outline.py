@@ -8,27 +8,35 @@ def metrics()
 
 
 ---
-policy=list of actions ???
-where are agent(s), foe(s) initiated? MC/Test?
+
+policy=dict(action: dict(state: value)) <-- Ask @ OH
 
 
-def reward([characters])
-    - note: can use type(character) to determine positive or negative reward
-    calculate the reward??
+def reward([agents], foe, turn_count)
 
-def branch_and_bound(depth=int, [agents], foe)
-    - Am I recursive? If so, Valerie's gonna be sad
+    reward_for_dead_foe, penalty_for_dying, penalty_for_hp_loss
+    if-then statements
+
+    return reward
+
+
+def branch_and_bound(bb_weight, depth=int, [agents_kwargs], [policies], foe_kwargs)
+    - Am I recursive? If so, Valerie's gonna be sad [Yes]
 
     subfunctions:
         - lookahead
 
-    return policy?
+    return [policies], reward
 
 
+def encounter([agents_kwargs], [policies], foe_kwargs, turn_limit)
+    initiates [agents], foe
+    - note: for now, agent(s) act first?
 
-def encounter([agents], foe)
+    calls turn(action) <- action pulled from policy
+    update [agents], foe
 
-    return ?
+    return [agents], foe, turn_count
 
 
 def turn(action)
@@ -45,10 +53,10 @@ def turn(action)
 
 
 class action()
-    self.agent
-    self.foe
+    self.actor
+    self.targets
     self.dice_roll
-    self.modifier
+    self.modifier <-- which
     self.effect <-- which state(s) changes?
     ... etc
     what is the recipe for an action?
@@ -62,6 +70,7 @@ class action()
 
 
 class agent()
+    self.max_hp = int
     self.hp = int
     self.stats = [6 ints]
     self.states = dict(AC, protections, spell_slots)
@@ -72,6 +81,7 @@ class agent()
 
 
 class foe()
+    self.max_hp = int
     self.hp = int
     self.stats = [6 ints]
     self.states = dict(AC, protections, debuffs, cooldowns)
