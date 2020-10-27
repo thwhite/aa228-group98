@@ -1,15 +1,21 @@
-class action:
+class Action:
 
-    def __init__(self, actor: Actor, targets, dice_roll: [int], effect: str):
-        self.actor
-        self.targets
-        self.dice_roll
-        self.modifier
-        self.effect
+    def __init__(self,
+    actor: Agent = Agent(),
+    targets: [Character] = [Foe()],
+    dice_roll: [int],
+    modifier: str,
+    effect: str
+    ):
+        self.actor = actor
+        self.targets = targets
+        self.dice_roll = dice_roll
+        self.modifier = modifier
+        self.effect = effect
 
     def resolve_action(self) -> delta_states: dict:
 
-        # what is the recipe for an action?
+    # what is the recipe for an action?
         #     1. roll dice, add modifiers
         #     2. compare rolls/AC/etc.
         #     3. roll damage
