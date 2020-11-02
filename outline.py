@@ -13,20 +13,20 @@ class Reward:
     self.reward_for_kill: float = 1000,
     self.penalty_for_dying: float = -1000,
     self.agent_hp_bonus: float = 10,
-    self.agents: [Agent] = [Agent()],
+    self.agent: Agent = Agent(),
     self.foe: Foe = Foe(),
 
     functions:
-        - get_reward(agents: [Agent] = [Agent()], foe: Foe = Foe()) -> reward: float
+        - get_reward(agent: Agent = Agent(), foe: Foe = Foe()) -> reward: float
 
 
 def branch_and_bound(
     bb_weight: float = 1,
     depth: int = 3,
     discount: float = 0.9,
-    agent_kwargs: [kwargs],
+    agent_kwargs: kwargs,
     MC_policy,
-    foe_kwargs: [kwargs],
+    foe_kwargs: kwargs,
     ): -> action: Action, reward: float
 
     subfunctions:
@@ -34,16 +34,16 @@ def branch_and_bound(
 
 
 def encounter(
-    agents_kwargs: [kwargs],
-    policies: [policy],
-    foe_kwargs: [kwargs],
+    agent_kwargs: kwargs,
+    policy: [Action],
+    foe_kwargs: kwargs,
     turn_limit: int
-    ): -> agents: [Agent], foe: Foe, turn_count: int
+    ): -> agent: Agent, foe: Foe, turn_count: int
 
-    Initiates [agents], foe
-        Agent(s) act first? (for now)
+    Initiates Agent, foe
+        Agent acts first? (for now)
     Calls turn(action) <- action pulled from policy
-    Updates [agents], foe
+    Updates agent, foe
 
 
 def turn(action: Action) -> ?
