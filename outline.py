@@ -8,16 +8,17 @@ def metrics()
 
 
 ---
+# Note: commented out means done(ish)
 
-class Reward:
-    self.reward_for_kill: float = 1000,
-    self.penalty_for_dying: float = -1000,
-    self.agent_hp_bonus: float = 10,
-    self.agent: Agent = Agent(),
-    self.foe: Foe = Foe(),
-
-    functions:
-        - get_reward(agent: Agent = Agent(), foe: Foe = Foe()) -> reward: float
+# class Reward:
+#     self.reward_for_kill: float = 1000,
+#     self.penalty_for_dying: float = -1000,
+#     self.agent_hp_bonus: float = 10,
+#     self.agent: Agent = Agent(),
+#     self.foe: Foe = Foe(),
+#
+#     functions:
+#         - get_reward(agent: Agent = Agent(), foe: Foe = Foe()) -> reward: float
 
 
 def branch_and_bound(
@@ -58,20 +59,26 @@ def turn(action: Action) -> ?
 
 
 class Action:
-    self.actor
-    self.targets
-    self.dice_roll
-    self.modifier # <-- which modifier to use
-    self.effect # <-- which state(s) changes?
-    ... etc
-    what is the recipe for an action?
-        1. roll dice, add modifiers
-        2. compare rolls/AC/etc.
-        3. roll damage
-        4. calculate state updates
+    actor, # Agent or foe
+    target, # Agent or foe
+    attack_roll: int = 20, # If no roll (such as don/doff shield), pass 1
+    modifier_stat: str, # If no modifier, pass "none"
+    target_roll: int = 1, # Similar to attack roll
+    save_stat: str, # If no save, pass "none"
+    effect: str, # <-- which state(s) changes?
+    effect_roll: [int] = [1],
+    # positive -> subtract from current state (as in damage);
+    # negative -> add (as in healing)
+    effect_modifier: int = 0
+    ):
 
     functions:
         - resolve_action() returns delta_states
+        What is the recipe for an action?
+            1. roll dice, add modifiers
+            2. compare rolls/AC/etc.
+            3. roll damage
+            4. calculate state updates
 
 
 class Agent:
