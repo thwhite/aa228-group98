@@ -3,12 +3,12 @@ import numpy as np
 class Reward:
 
     def __init__(self,
-    reward_for_kill: float = 1000,
-    penalty_for_dying: float = -1000,
-    agent_hp_bonus: float = 10,
-    agent: Agent = Agent(),
-    foe: Foe = Foe(),
-    ):
+        reward_for_kill: float = 1000,
+        penalty_for_dying: float = -1000,
+        agent_hp_bonus: float = 10,
+        agent: Agent = Agent(),
+        foe: Foe = Foe(),
+        ):
 
         reward_per_agent_hp = agent_hp_bonus*np.arange(
                 start=0, stop=agent.max_hp
