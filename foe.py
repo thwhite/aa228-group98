@@ -9,9 +9,9 @@ class Foe:
 
     def get_available_actions(self):
         actions = ["hit_small", "buff"]
-        if self.states["radiant_cooldown"] is 0:
+        if self.states["radiant_cooldown"] == 0:
             actions.append("harder_hit")
-        if self.states["hit_large_cooldown"] is not 0:
+        if self.states["hit_large_cooldown"] != 0:
             actions.append(["hit_large"])
         return actions
 
@@ -37,4 +37,3 @@ class Foe:
             self.states["cooldown"] = self.states["cooldown"] - 1
         elif not self.states["cooldown"]:
             self.actions["radiant_breath"] = 1
-

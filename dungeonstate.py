@@ -1,5 +1,8 @@
 import numpy as np
 
+from agent import Agent
+from foe import Foe
+
 class DungeonState:
 
     # BIG TODO: test
@@ -9,8 +12,8 @@ class DungeonState:
         # and further that they are ints that cannot go negative.
         # TODO: Add this note to agent/foe.py
         self.available_states = {
-            'agent': {*initial_agent.states, initial_agent.hp},
-            'foe': {*initial_foe.states, initial_foe.hp},
+            "agent": {**initial_agent.states, **{"hp": initial_agent.hp}},
+            "foe": {**initial_foe.states, **{"hp": initial_foe.hp}},
       }
 
     def agent_foe_to_index(self, agent: Agent, foe: Foe) -> int:
@@ -21,7 +24,7 @@ class DungeonState:
     def state_to_index(self, states) -> int:
 
         return self.__index_from_states(
-            self.__align_state_and_dim_arrays(states)
+            *self.__align_state_and_dim_arrays(states)
         )
 
 
@@ -29,8 +32,9 @@ class DungeonState:
 
         states = {}
 
-        for a in ['agent', 'foe']:
-            for state, max_state in self.available_states[a]:
+        for a in ["agent", "foe"]:
+            a_states = {}
+            for state, max_state in self.available_states[a].items():
                 a_states[state] = idx % (max_state + 1)
                 idx //= (max_state + 1)
             states[a] = a_states
@@ -42,14 +46,14 @@ class DungeonState:
 
         state_array = [
             states[a][s]
+            for a in ["agent", "foe"]
             for s in states[a].keys() & self.available_states[a].keys()
-            for a in ['agent', 'foe']
         ]
 
         state_dims = [
-            available_states[a][s]
+            self.available_states[a][s]
+            for a in ["agent", "foe"]
             for s in states[a].keys() & self.available_states[a].keys()
-            for a in ['agent', 'foe']
         ]
 
         return state_array, state_dims
@@ -63,11 +67,21 @@ class DungeonState:
                 )
                 for i, state in enumerate(states)
             ]
-        )
+        ).astype(int)
 
 def state_dict(agent: Agent, foe: Foe) -> dict:
 
     return {
-        'agent': {*agent.states, "hp": agent.hp},
-        'foe': {*foe.states, "hp": foe.hp}
+        "agent": {**agent.states, **{"hp": agent.hp}},
+        "foe": {**foe.states, **{"hp": foe.hp}},
     }
+
+def actor_state(actor, state_dict) -> dict:
+    # Does not include hp. To get hp, use: state_dict[actor]['hp']
+
+    return __remove_hp(state_dict[actor])
+
+def __remove_hp(state_dict):
+    dict_without_hp = dict(state_dict)
+    del dict_without_hp["hp"]
+    return dict_without_hp

@@ -10,8 +10,7 @@ class Action:
         modifier_stat: str = "none", # Default: No modifier
         target_roll: int = 1, # Default: No roll
         save_stat: str = "none", # Default: No save
-        # Which state(s) changes? Default: No state change.
-        effect: [str] = ["none"],
+        effect: [str] = "none", # Which state changes? Default: No state change
         effect_roll: [int] = [1], # Default: No roll
         # Positive -> Subtract from current state (as in damage);
         # Negative -> Add (as in healing)
@@ -29,8 +28,6 @@ class Action:
         self.effect_roll = effect_roll
         self.effect_modifier = effect_modifier
 
-    def print_hello(self):
-        print('hello')
 
     def resolve_action(self) -> dict:
         # What is the recipe for an action?
@@ -39,14 +36,12 @@ class Action:
             #     3. Roll effect
             #     4. Calculate updates
 
-        print('hello')
-
         new_states = {
-            "actor": {*self.actor.states, *{"hp": self.actor.hp}},
-            "target": {*self.target.states, *{"hp": self.target.hp}}
+            "actor": {**self.actor.states, **{"hp": self.actor.hp}},
+            "target": {**self.target.states, **{"hp": self.target.hp}}
         }
 
-        if effect == "none":
+        if self.effect == "none":
             return new_states
 
         agent_roll = random.randint(1, self.attack_roll)
@@ -69,10 +64,12 @@ class Action:
                 for die in self.effect_roll
             ]) + self.effect_modifier
 
-            old_state = new_states["target"][effect]
+            old_state = new_states["target"][self.effect]
             new_state = old_state - effect_roll
 
             # States are nonnegative
-            new_states["target"][effect] = new_state if new_state >= 0 else 0
+            new_states["target"][self.effect] = (
+                new_state if new_state >= 0 else 0
+            )
 
         return new_states

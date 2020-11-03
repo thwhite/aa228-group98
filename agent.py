@@ -35,6 +35,6 @@ class Agent:
         elif policy_step == "hit":
             action = Action() # hit
         else:
-            action = Action() # default
+            action = Action(self, self) # default
 
         return action

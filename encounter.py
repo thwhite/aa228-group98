@@ -1,8 +1,9 @@
 from agent import Agent
 from foe import Foe
 from turn import turn
+from dungeonstate import DungeonState
+
 import copy
-from DungeonsAndDragonsMDP import DungeonState
 
 
 def encounter(bb_agent, bb_foe, policy, turn_count, num_runs):
