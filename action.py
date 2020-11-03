@@ -1,4 +1,7 @@
+import numpy as np
 import random
+
+from dungeonstate import state_dict
 
 class Action:
 
@@ -27,11 +30,16 @@ class Action:
         self.effect_modifier = effect_modifier
 
     def resolve_action(self) -> new_states: dict:
-        # what is the recipe for an action?
+        # What is the recipe for an action?
             #     1. Roll dice, add modifiers
             #     2. Compare
             #     3. Roll effect
             #     4. Calculate updates
+
+        new_states = {
+            'actor': {*actor.states, actor.hp},
+            'target': {*target.states, target.hp}
+        }
 
         agent_roll = random.randint(1, self.attack_roll)
         agent_roll += (self.actor.stats[self.modifier_stat]
@@ -43,13 +51,19 @@ class Action:
             if self.save_stat is not "none" else 0
         )
 
-        # attack = random.randint(1, self.attack_roll)
-        # if attack >= self.target.states["AC"]:
-        #     defend = self.target.stats["save_stat"] # This format is wrong right now, will figure later
-        #     if random.randint(1, defend) <= save_stat:
-        #         # how to handle actions. is it true that every action increments or decrements a stat of some form?
+        # Technically in some cases it's a strict inequality, but that's too
+        # subtle to model right now
+        if agent_roll >= target_roll
 
+            effect_roll = np.sum([
+                random.randint(1, die)
+                for die in self.effect_roll
+            ]) + self.effect_modifier
 
-        new_states = {"hp": 0}
+            old_state = new_states['target'][effect]
+            new_state = old_state - effect_roll
+
+            # States are nonnegative
+            new_states['target'][effect] = new_state if new_state >= 0 else 0
 
         return new_states

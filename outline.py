@@ -56,37 +56,37 @@ def turn(agent, foe, policy) -> ?
     foe.decrement_cooldowns()
 
 
-class Action:
-    actor, # Agent or foe
-    target, # Agent or foe
-    attack_roll: int = 20, # If no roll (such as don/doff shield), pass 1
-    modifier_stat: str, # If no modifier, pass "none"
-    target_roll: int = 1, # Similar to attack roll
-    save_stat: str, # If no save, pass "none"
-    effect: str, # <-- which state(s) changes?
-    effect_roll: [int] = [1],
-    # positive -> subtract from current state (as in damage);
-    # negative -> add (as in healing)
-    effect_modifier: int = 0
-    ): -> new_states: {actor: {actor.states}, target: {target.states}}
+# class Action:
+#     actor, # Agent or foe
+#     target, # Agent or foe
+#     attack_roll: int = 20, # If no roll (such as don/doff shield), pass 1
+#     modifier_stat: str, # If no modifier, pass "none"
+#     target_roll: int = 1, # Similar to attack roll
+#     save_stat: str, # If no save, pass "none"
+#     effect: str, # <-- which state(s) changes?
+#     effect_roll: [int] = [1],
+#     # positive -> subtract from current state (as in damage);
+#     # negative -> add (as in healing)
+#     effect_modifier: int = 0
+#     ): -> new_states: {actor: {actor.states}, target: {target.states}}
+#
+#     functions:
+#         - resolve_action() returns new_states
+#         What is the recipe for an action?
+#             1. roll dice, add modifiers
+#             2. compare rolls/AC/etc.
+#             3. roll damage
+#             4. calculate state updates
 
-    functions:
-        - resolve_action() returns new_states
-        What is the recipe for an action?
-            1. roll dice, add modifiers
-            2. compare rolls/AC/etc.
-            3. roll damage
-            4. calculate state updates
 
-
-class DungeonState: # RECALL EXPONENTIAL GROWTH OF STATE-SPACE
-    agent: Agent
-    foe: Foe
-
-    functions:
-        # - state_to_index(self)
-        # - agent_foe_to_index(self)
-        - index_to_state(self, index)
+# class DungeonState: # RECALL EXPONENTIAL GROWTH OF STATE-SPACE
+#     agent: Agent
+#     foe: Foe
+#
+#     functions:
+#         - state_to_index(self)
+#         - agent_foe_to_index(self)
+#         - index_to_state(self, index)
 
 
 class Agent:
