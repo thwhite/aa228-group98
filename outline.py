@@ -35,13 +35,13 @@ def branch_and_bound(
 
 
 def encounter(
-    agent_kwargs: kwargs,
+    agent: Agent, # Make sure not to edit-in-place
     policy: [Action],
-    foe_kwargs: kwargs,
+    foe: Foe,
     turn_limit: int
     ): -> agent: Agent, foe: Foe, turn_count: int
 
-    Initiates Agent, foe
+    "Copies" Agent, foe
         Agent acts first? (for now)
     Calls turn(action) <- action pulled from policy
     Updates agent, foe
@@ -70,7 +70,7 @@ class Action:
     # positive -> subtract from current state (as in damage);
     # negative -> add (as in healing)
     effect_modifier: int = 0
-    ):
+    ): -> new_states: {actor: {actor.states}, target: {target.states}}
 
     functions:
         - resolve_action() returns delta_states
@@ -106,6 +106,8 @@ class Foe:
 
 
 --- scratch/notes ---
+
+# Valerie todo: DungeonState
 
 # define an array states, give each state some index, function maps state to idx and vice versa
 # repeat for actions
