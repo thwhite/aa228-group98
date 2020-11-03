@@ -1,4 +1,4 @@
-def turn(agent, foe, policy):
+def turn(agent, foe, policy, dungeon):
 
     actions = []
     actions.append = agent.act(policy)
