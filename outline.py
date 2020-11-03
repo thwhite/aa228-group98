@@ -81,6 +81,15 @@ class Action:
             4. calculate state updates
 
 
+class DungeonState: # RECALL EXPONENTIAL GROWTH OF STATE-SPACE
+    agent: Agent
+    foe: Foe
+
+    functions:
+        - state_to_index(self)
+        - index_to_state(self, index)
+
+
 class Agent:
     self.name: str
     self.max_hp: int
@@ -106,29 +115,3 @@ class Foe:
 
 
 --- scratch/notes ---
-
-# Valerie todo: DungeonState
-
-# define an array states, give each state some index, function maps state to idx and vice versa
-# repeat for actions
-# policy: array where index is state index, value is action index
-#
-#
-# class DungeonsAndDragonsMDP:
-#
-# def DungeonState: # RECALL EXPONENTIAL GROWTH OF STATE-SPACE
-#     def __init__(self,...):
-#         agent_hp
-#         agent_ac
-#         ...
-#         foe_hp
-#         foe_ac
-#
-# def state_to_index(self, state):
-#     idx = 10*state.hp + 10*state.ac
-#     return idx
-#
-# def index_to_state(self,idx):
-#     hp = np.mod(idx,self.MAX_HP) #
-#     ac = ....
-#     return State(hp,ac)
