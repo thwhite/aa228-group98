@@ -1,4 +1,3 @@
-
 import random
 
 class Action:
@@ -27,7 +26,7 @@ class Action:
         self.effect_roll = effect_roll
         self.effect_modifier = effect_modifier
 
-    def resolve_action(self) -> delta_states: dict:
+    def resolve_action(self) -> new_states: dict:
         # what is the recipe for an action?
             #     1. Roll dice, add modifiers
             #     2. Compare
@@ -51,6 +50,6 @@ class Action:
         #         # how to handle actions. is it true that every action increments or decrements a stat of some form?
 
 
-        delta_states = {"hp": 0}
+        new_states = {"hp": 0}
 
-        return delta_states
+        return new_states

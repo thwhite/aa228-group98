@@ -25,9 +25,9 @@ def branch_and_bound(
     bb_weight: float = 1,
     depth: int = 3,
     discount: float = 0.9,
-    agent_kwargs: kwargs,
+    agent: Agent,
     MC_policy,
-    foe_kwargs: kwargs,
+    foe: Foe,
     ): -> action: Action, reward: float
 
     subfunctions:
@@ -71,7 +71,7 @@ class Action:
     ): -> new_states: {actor: {actor.states}, target: {target.states}}
 
     functions:
-        - resolve_action() returns delta_states
+        - resolve_action() returns new_states
         What is the recipe for an action?
             1. roll dice, add modifiers
             2. compare rolls/AC/etc.
@@ -84,7 +84,8 @@ class DungeonState: # RECALL EXPONENTIAL GROWTH OF STATE-SPACE
     foe: Foe
 
     functions:
-        - state_to_index(self)
+        # - state_to_index(self)
+        # - agent_foe_to_index(self)
         - index_to_state(self, index)
 
 

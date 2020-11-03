@@ -13,7 +13,7 @@ def branch_and_bound(
 
 
 
-def _lookahead(
+def __lookahead(
     hp: Agent.hp,
     state: Agent.states,
     action: Action,
