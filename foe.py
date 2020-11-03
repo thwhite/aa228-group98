@@ -4,18 +4,20 @@ class Foe:
 
     def __init__(self):
         self.hp = 127
-        self.stats = [18, 19, 17, 14, 16, 15]
-        self.states = {"AC": 20, "buffed": 0, "radiant_cooldown": 4, "hit_large_cooldown": 1}
+        self.stats = [18, 19, 17, 14, 16, 15, 20] # six normal states and AC
+        self.states = { "buffed": 0, "radiant_cooldown": 4, "hit_large_cooldown": 1}
         self.actions = {"hit_small": 1, "hit_large": 1, "buff": 1, "radiant_breath": 1}
+
+    def get_available_actions(self):
+        actions = ["hit_small", "buff"]
+        if self.states["radiant_cooldown"] is 0:
+            actions.append("harder_hit")
+        if self.states["hit_large_cooldown"] is not 0:
+            actions.append(["hit_large"])
+        return actions
 
     def act(self):
         e = random.random()
-
-        # Note: turns out choosing a random action is remarkably hard to do since they're all in a dict
-        # and the specific details have to be specified into the action object.
-
-        # Current implementation has random chance to taking default action even when inadviseable. This is less
-        # than we were hoping but hopefully ok for MVP.
 
         if self.actions["radiant_breath"] and e < 0.7:
             action = Action()
