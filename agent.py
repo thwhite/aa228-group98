@@ -17,33 +17,11 @@ class Agent:
             actions.append(["absorb", "claws", "healing", "moonbeam"])
         return actions
 
-# Action.__init__(self,
-#     actor, # Agent or foe
-#     target, # Agent or foe
-#     attack_roll: int = 20, # If no roll (such as don/doff shield), pass 1
-#     modifier_stat: str, # If no modifier, pass "none"
-#     target_roll: int = 1, # Similar to attack roll
-#     save_stat: str, # If no save, pass "none"
-#     effect: str, # <-- which state(s) changes?
-#     effect_roll: [int] = [1],
-#     # positive -> subtract from current state (as in damage);
-#     # negative -> add (as in healing)
-#     effect_modifier: int = 0
-#     ):
-
-
     def act(self, policy_step):
 
         if policy_step == "toggle_shield":
             self.states["shield"] = not self.states["shield"] # flips the bit
-            action = Action(
-                self, self,
-                1, "none",
-                1, "none",
-                effect="ac",
-                # -2 if shield on -> AC increases by 2; 2 if shield off
-                effect_modifier = 2 - 4*self.states["shield"],
-            )
+            action = Action(self, self)
         elif policy_step == "absorb":
             action = Action() # absorb
         elif policy_step == "claws":

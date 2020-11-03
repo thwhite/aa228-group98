@@ -13,19 +13,19 @@ class DungeonState:
             'foe': {*initial_foe.states, initial_foe.hp},
       }
 
-    def agent_foe_to_index(self, agent: Agent, foe: Foe): -> idx: int
+    def agent_foe_to_index(self, agent: Agent, foe: Foe) -> int:
 
         return self.state_to_index(state_dict(agent, foe))
 
 
-    def state_to_index(self, states): -> idx: int
+    def state_to_index(self, states) -> int:
 
         return self.__index_from_states(
             self.__align_state_and_dim_arrays(states)
         )
 
 
-    def index_to_states(self, idx): -> state: dict
+    def index_to_states(self, idx) -> dict:
 
         states = {}
 
@@ -38,7 +38,7 @@ class DungeonState:
         return states
 
 
-    def __align_state_and_dim_arrays(self, states): -> state_array, state_dims
+    def __align_state_and_dim_arrays(self, states) -> [int]:
 
         state_array = [
             states[a][s]
@@ -54,7 +54,7 @@ class DungeonState:
 
         return state_array, state_dims
 
-    def __index_from_states(self, states, state_dims): -> idx: int
+    def __index_from_states(self, states, state_dims) -> int:
 
         return np.sum(
             [
@@ -65,7 +65,7 @@ class DungeonState:
             ]
         )
 
-def state_dict(agent: Agent, foe: Foe): -> states: state_dict
+def state_dict(agent: Agent, foe: Foe) -> dict:
 
     return {
         'agent': {*agent.states, "hp": agent.hp},

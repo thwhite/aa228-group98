@@ -29,16 +29,21 @@ class Action:
         self.effect_roll = effect_roll
         self.effect_modifier = effect_modifier
 
-    def resolve_action(self): -> new_states: dict
+    def print_hello(self):
+        print('hello')
+
+    def resolve_action(self) -> dict:
         # What is the recipe for an action?
             #     1. Roll dice, add modifiers
             #     2. Compare
             #     3. Roll effect
             #     4. Calculate updates
 
+        print('hello')
+
         new_states = {
-            "actor": {*actor.states, "hp": actor.hp},
-            "target": {*target.states, "hp": target.hp}
+            "actor": {*self.actor.states, *{"hp": self.actor.hp}},
+            "target": {*self.target.states, *{"hp": self.target.hp}}
         }
 
         if effect == "none":
@@ -46,17 +51,17 @@ class Action:
 
         agent_roll = random.randint(1, self.attack_roll)
         agent_roll += (self.actor.stats[self.modifier_stat]
-            if self.modifier_stat is not "none" else 0
+            if self.modifier_stat != "none" else 0
         )
 
         target_roll = random.randint(1, self.target_roll)
         target_roll += (self.target.stats[self.save_stat]
-            if self.save_stat is not "none" else 0
+            if self.save_stat != "none" else 0
         )
 
         # Technically in some cases it's a strict inequality, but that's too
         # subtle to model right now
-        if agent_roll >= target_roll
+        if agent_roll >= target_roll:
             sign = np.sign(self.effect_modifier)
 
             effect_roll = sign*np.sum([
