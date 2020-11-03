@@ -68,6 +68,6 @@ class DungeonState:
 def state_dict(agent: Agent, foe: Foe): -> states: state_dict
 
     return {
-        'agent': {*agent.states, agent.hp},
-        'foe': {*foe.states, foe.hp}
+        'agent': {*agent.states, "hp": agent.hp},
+        'foe': {*foe.states, "hp": foe.hp}
     }
