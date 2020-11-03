@@ -34,27 +34,25 @@ def branch_and_bound(
         - lookahead()
 
 
-def encounter(
-    agent: Agent, # Make sure not to edit-in-place
-    policy: [Action],
-    foe: Foe,
-    turn_limit: int
-    ): -> agent: Agent, foe: Foe, turn_count: int
+def encounter(bb_agent, bb_foe, policy, turn_count, num_runs
 
     "Copies" Agent, foe
-        Agent acts first? (for now)
-    Calls turn(action) <- action pulled from policy
-    Updates agent, foe
+
+    for i in range(turn_count, num_runs):
+        turn(agent, foe, policy[idx]) # policy index comes from state
+    return agent, foe
 
 
-def turn(action: Action) -> ?
+def turn(agent, foe, policy) -> ?
 
-    agent_action = agent.act(action)
-    foe_action = foe.act()
-    for action in [actions]
-        delta_states = action.resolve_action()
-        update agent.states, etc.
-        update foe.states, etc.
+    # do actions
+    actions.append = agent.act(policy)
+    actions.append = foe.act()
+
+    # set values of the
+    new_states = action.resolve_action()
+    agent.states = new states
+
     foe.decrement_cooldowns()
 
 
@@ -99,6 +97,7 @@ class Agent:
     self.actions: dict(action: availability)
 
     functions:
+        - get_available_actions()  # tells you what actions are possible based on state info
         - act(action) returns action object
 
 
@@ -107,9 +106,9 @@ class Foe:
     self.hp: int
     self.stats: [int] # length 6
     self.states: dict(AC, protections, debuffs, cooldowns)
-    self.actions: dict(action: availability)
 
     functions:
+        - get_available_actions() # tells you what actions are possible based on state info
         - act() returns action object
         - decrement_cooldowns()
 
