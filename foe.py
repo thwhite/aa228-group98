@@ -4,9 +4,17 @@ from action import Action
 class Foe:
 
     def __init__(self):
+        # Note: DungeonStates assumes that all states start at their max
+        # possible value, and further that they are ints that cannot go
+        # negative.
         self.hp = 127
-        self.stats = {"str": 4, "dex": 4, "con": 3, "int": 2, "wis": 3, "cha": 3, "AC": 20}
-        self.states = {"buffed": 0, "radiant_cooldown": 4, "hit_large_cooldown": 1}
+        self.stats = {
+            "str": 4, "dex": 4, "con": 3, "int": 2, "wis": 3, "cha": 3,
+            "AC": 20
+        }
+        self.states = {
+            "buffed": 1, "radiant_cooldown": 4, "hit_large_cooldown": 1
+        }
 
     def get_available_actions(self):
         actions = ["hit_small"]
@@ -38,4 +46,3 @@ class Foe:
             self.states["radiant_cooldown"] = self.states["radiant_cooldown"] - 1
         if self.states["hit_large_cooldown"] >= 1:
             self.states["hit_large_cooldown"] = self.states["hit_large_cooldown"] - 1
-

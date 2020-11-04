@@ -3,9 +3,17 @@ from action import Action
 class Agent:
 
     def __init__(self):
+        # Note: DungeonStates assumes that all states start at their max
+        # possible value, and further that they are ints that cannot go
+        # negative.
         self.hp = 12
-        self.stats = {"str": 2, "dex": 2, "con": 2, "int": 2, "wis": 2, "cha": 2, "AC": 15}  # six traditional stats and AC
-        self.states = {"shield": 1, "absorb": 1, "spell slots": 6}
+        self.stats = {
+            "str": 2, "dex": 2, "con": 2, "int": 2, "wis": 2, "cha": 2,
+            "AC": 15
+        }  # six traditional stats and AC
+        self.states = {
+            "shield": 1, "absorb": 1, "spell slots": 6
+        }
 
     def get_available_actions(self):
         actions = ["hit", "toggle_shield"]

@@ -11,7 +11,6 @@ class DungeonState:
     def __init__(self, initial_agent: Agent, initial_foe: Foe):
         # Note: This assumes that all states start at their max possible value,
         # and further that they are ints that cannot go negative.
-        # TODO: Add this note to agent/foe.py
         max_states = {
             "agent": {**initial_agent.states, **{"hp": initial_agent.hp}},
             "foe": {**initial_foe.states, **{"hp": initial_foe.hp}},
