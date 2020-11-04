@@ -4,7 +4,7 @@ class Foe:
 
     def __init__(self):
         self.hp = 127
-        self.stats = [18, 19, 17, 14, 16, 15, 20] # six normal states and AC
+        self.stats = [4, 4, 3, 2, 3, 3, 20] # six normal states and AC
         self.states = { "buffed": 0, "radiant_cooldown": 4, "hit_large_cooldown": 1}
 
     def get_available_actions(self):
