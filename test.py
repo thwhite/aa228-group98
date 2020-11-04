@@ -16,7 +16,7 @@ print(f'Initial states: {initial_states}')
 
 print('Lights, camera... action!!!')
 doff = good_guy.act("toggle_shield")
-final_states = doff.resolve_action()
+final_states = doff.resolve_action(good_guy)
 # Is this how the agent/foe get updated?
 # Turns out this doesn't actually do anything right now because doff doesn't
 # change the states, but it's nice to have this worked out
