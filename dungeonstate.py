@@ -1,3 +1,4 @@
+from copy import deepcopy
 import numpy as np
 
 from agent import Agent
@@ -5,16 +6,42 @@ from foe import Foe
 
 class DungeonState:
 
-    # BIG TODO: test
+    # BIG TODO: fix
 
     def __init__(self, initial_agent: Agent, initial_foe: Foe):
         # Note: This assumes that all states start at their max possible value,
         # and further that they are ints that cannot go negative.
         # TODO: Add this note to agent/foe.py
-        self.available_states = {
+        max_states = {
             "agent": {**initial_agent.states, **{"hp": initial_agent.hp}},
             "foe": {**initial_foe.states, **{"hp": initial_foe.hp}},
-      }
+        }
+
+        # Index at 0 -> state dimension is 1 higher than max state
+        self.available_states = {
+            a: {
+                state: max_state + 1
+                for state, max_state in a_max_state.items()
+            }
+            for a, a_max_state in max_states.items()
+        }
+
+    def index_to_states(self, idx) -> dict:
+
+        states = {}
+
+        for a in ["agent", "foe"]:
+            a_states = {}
+
+            for state, state_dim in self.available_states[a].items():
+                mod = idx % state_dim
+                a_states[state] = mod
+                idx //= state_dim
+
+            states[a] = a_states
+
+        return states
+
 
     def agent_foe_to_index(self, agent: Agent, foe: Foe) -> int:
 
@@ -24,56 +51,40 @@ class DungeonState:
     def state_to_index(self, states) -> int:
 
         return self.__index_from_states(
-            *self.__align_state_and_dim_arrays(states)
+            states, self.available_states
         )
 
 
-    def index_to_states(self, idx) -> dict:
+    def __index_from_states(self, states, available_states) -> int:
 
-        states = {}
+        state_dims = flatten_state_dict(available_states)
+        idx = 0
 
-        for a in ["agent", "foe"]:
-            a_states = {}
-            for state, max_state in self.available_states[a].items():
-                a_states[state] = idx % (max_state + 1)
-                idx //= (max_state + 1)
-            states[a] = a_states
+        # Reversing necessary to undo calculations in index_to_states()
+        for a in ["foe", "agent"]:
+            for state, value in reversed(states[a].items()):
+                state_dim = state_dims.pop(f'{a} {state}')
+                dim_factor = np.prod(list(state_dims.values())).astype(int)
+                idx += value*dim_factor
 
-        return states
+        return idx
 
-
-    def __align_state_and_dim_arrays(self, states) -> [int]:
-
-        state_array = [
-            states[a][s]
-            for a in ["agent", "foe"]
-            for s in states[a].keys() & self.available_states[a].keys()
-        ]
-
-        state_dims = [
-            self.available_states[a][s]
-            for a in ["agent", "foe"]
-            for s in states[a].keys() & self.available_states[a].keys()
-        ]
-
-        return state_array, state_dims
-
-    def __index_from_states(self, states, state_dims) -> int:
-
-        return np.sum(
-            [
-                state*np.prod(
-                    [dim for dim in state_dims[i+1:]]
-                )
-                for i, state in enumerate(states)
-            ]
-        ).astype(int)
 
 def state_dict(agent: Agent, foe: Foe) -> dict:
+    # Combines .states with .hp
 
     return {
         "agent": {**agent.states, **{"hp": agent.hp}},
         "foe": {**foe.states, **{"hp": foe.hp}},
+    }
+
+def flatten_state_dict(state_dict) -> dict:
+    # Reduces 2-level dict to 1-level
+
+    return {
+        f'{a} {state}': value
+        for a in ["agent", "foe"]
+        for state, value in state_dict[a].items()
     }
 
 def actor_state(actor, state_dict) -> dict:
