@@ -22,7 +22,7 @@ final_states = doff.resolve_action(good_guy)
 # change the states, but it's nice to have this worked out
 
 good_guy.states = actor_state("actor", final_states)
-good_guy.hp = final_states["actor"]['hp']
+good_guy.hp = final_states["actor"]["hp"]
 
 final_states = state_dict(good_guy, bad_guy)
 print(f'Final states: {final_states}')
