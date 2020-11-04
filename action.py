@@ -5,11 +5,10 @@ class Action:
 
     def __init__(self,
         actor, # Agent or foe
-        target, # Agent or foe
         attack_roll: int = 1, # Default: No roll
-        modifier_stat: str = "none", # Default: No modifier
+        attack_modifier: str = "none", # Default: No modifier
         target_roll: int = 1, # Default: No roll
-        save_stat: str = "none", # Default: No save
+        save_modifier: str = "none", # Default: No save
         effect: [str] = "none", # Which state changes? Default: No state change
         effect_roll: [int] = [1], # Default: No roll
         # Positive -> Subtract from current state (as in damage);
@@ -19,17 +18,16 @@ class Action:
         ):
 
         self.actor = actor
-        self.target = target
         self.attack_roll = attack_roll
-        self.modifier_stat = modifier_stat
+        self.attack_modifier = attack_modifier
         self.target_roll = target_roll
-        self.save_stat = save_stat
+        self.save_modifier = save_modifier
         self.effect = effect
         self.effect_roll = effect_roll
         self.effect_modifier = effect_modifier
 
 
-    def resolve_action(self) -> dict:
+    def resolve_action(self, target) -> dict:
         # What is the recipe for an action?
             #     1. Roll dice, add modifiers
             #     2. Compare
@@ -38,19 +36,19 @@ class Action:
 
         new_states = {
             "actor": {**self.actor.states, **{"hp": self.actor.hp}},
-            "target": {**self.target.states, **{"hp": self.target.hp}}
+            "target": {**target.states, **{"hp": target.hp}}
         }
 
         if self.effect == "none":
             return new_states
 
         agent_roll = random.randint(1, self.attack_roll)
-        agent_roll += (self.actor.stats[self.modifier_stat]
-            if self.modifier_stat != "none" else 0
+        agent_roll += (self.actor.stats[self.attack_modifier]
+            if self.modifier != "none" else 0
         )
 
         target_roll = random.randint(1, self.target_roll)
-        target_roll += (self.target.stats[self.save_stat]
+        target_roll += (target.stats[self.save_modifier]
             if self.save_stat != "none" else 0
         )
 
