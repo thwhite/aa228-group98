@@ -9,8 +9,8 @@ class Action:
         attack_modifier: str = "none", # Default: No modifier
         target_roll: int = 1, # Default: No roll
         save_modifier: str = "none", # Default: No save
-        effect: [str] = "none", # Which state changes? Default: No state change
-        effect_roll: [int] = [1], # Default: No roll
+        effect: str = "none", # Which state changes? Default: No state change
+        effect_roll: int = 1, # Default: No roll
         # Positive -> Subtract from current state (as in damage);
         # Negative -> Add (as in healing)
         # Default: No modifier
