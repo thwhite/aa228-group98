@@ -23,7 +23,7 @@ def encounter(bb_agent, bb_foe, policy, turn_count, num_runs):
     dungeon = DungeonState(local_agent, local_foe)
 
     for i in range(turn_count, num_runs):
-        idx = dungeon.state_to_index(local_agent, local_foe)
+        idx = dungeon.agent_foe_to_index(local_agent, local_foe)
         turn(local_agent, local_foe, policy[idx])
 
     return local_agent, local_foe
