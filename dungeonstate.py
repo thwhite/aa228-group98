@@ -5,8 +5,7 @@ from agent import Agent
 from foe import Foe
 
 class DungeonState:
-
-    # BIG TODO: fix
+    # TODO: Better documentation
 
     def __init__(self, initial_agent: Agent, initial_foe: Foe):
         # Note: This assumes that all states start at their max possible value,
@@ -63,7 +62,9 @@ class DungeonState:
         for a in ["foe", "agent"]:
             for state, value in reversed(states[a].items()):
                 state_dim = state_dims.pop(f'{a} {state}')
-                dim_factor = np.prod(list(state_dims.values())).astype(int)
+                dim_factor = np.prod(
+                    list(state_dims.values())
+                ).astype(int)
                 idx += value*dim_factor
 
         return idx

@@ -1,9 +1,6 @@
 def monte_carlo()
 
 
-def test()
-
-
 def metrics()
 
 
@@ -21,6 +18,9 @@ def metrics()
 #         - get_reward(agent: Agent = Agent(), foe: Foe = Foe()) -> reward: float
 
 
+def test():
+
+
 def branch_and_bound(
     bb_weight: float = 1,
     depth: int = 3,
@@ -28,32 +28,32 @@ def branch_and_bound(
     agent: Agent,
     MC_policy,
     foe: Foe,
-    ): -> action: Action, reward: float
+    ) -> action: Action, reward: float
 
     subfunctions:
         - lookahead()
 
 
-def encounter(bb_agent, bb_foe, policy, turn_count, num_runs
-
-    "Copies" Agent, foe
-
-    for i in range(turn_count, num_runs):
-        turn(agent, foe, policy[idx]) # policy index comes from state
-    return agent, foe
-
-
-def turn(agent, foe, policy) -> ?
-
-    # do actions
-    actions.append = agent.act(policy)
-    actions.append = foe.act()
-
-    # set values of the
-    new_states = action.resolve_action()
-    agent.states = new states
-
-    foe.decrement_cooldowns()
+# def encounter(bb_agent, bb_foe, policy, turn_count, num_runs)
+#
+#     "Copies" Agent, foe
+#
+#     for i in range(turn_count, num_runs):
+#         turn(agent, foe, policy[idx]) # policy index comes from state
+#     return agent, foe
+#
+#
+# def turn(agent, foe, policy) -> ?
+#
+#     # do actions
+#     actions.append = agent.act(policy)
+#     actions.append = foe.act()
+#
+#     # set values of the
+#     new_states = action.resolve_action()
+#     agent.states = new states
+#
+#     foe.decrement_cooldowns()
 
 
 # class Action:
@@ -89,29 +89,29 @@ def turn(agent, foe, policy) -> ?
 #         - index_to_state(self, index)
 
 
-class Agent:
-    self.name: str
-    self.max_hp: int
-    self.hp: int
-    self.stats: [int] # length 6
-    self.states: dict(AC, protections, spell_slots)
-    self.actions: dict(action: availability)
-
-    functions:
-        - get_available_actions()  # tells you what actions are possible based on state info
-        - act(action) returns action object
-
-
-class Foe:
-    self.max_hp: int
-    self.hp: int
-    self.stats: [int] # length 6
-    self.states: dict(AC, protections, debuffs, cooldowns)
-
-    functions:
-        - get_available_actions() # tells you what actions are possible based on state info
-        - act() returns action object
-        - decrement_cooldowns()
+# class Agent:
+#     self.name: str
+#     self.max_hp: int
+#     self.hp: int
+#     self.stats: [int] # length 6
+#     self.states: dict(AC, protections, spell_slots)
+#     self.actions: dict(action: availability)
+#
+#     functions:
+#         - get_available_actions()  # tells you what actions are possible based on state info
+#         - act(action) returns action object
+#
+#
+# class Foe:
+#     self.max_hp: int
+#     self.hp: int
+#     self.stats: [int] # length 6
+#     self.states: dict(AC, protections, debuffs, cooldowns)
+#
+#     functions:
+#         - get_available_actions() # tells you what actions are possible based on state info
+#         - act() returns action object
+#         - decrement_cooldowns()
 
 
 --- scratch/notes ---

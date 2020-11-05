@@ -1,12 +1,12 @@
 import reward
 
 def branch_and_bound(
-    bb_weight: float = 1,
     depth: int = 3,
     discount: float = 0.9,
     agent: Agent,
+    foe: Foe, # We might end up with a belief. How do we do that?
     # MC_policy,
-    foe: Foe,
+    # bb_weight: float = 1,
     ): -> action: Action, reward: float
 
     return Action(), reward
@@ -26,3 +26,24 @@ def __lookahead(
     utility = reward + discount*sum(transition*utility)
     # Okay, so these need to be defined better
     return utility
+
+
+
+### Scratch / Notes ###
+
+# Approach: Do forward search instead now. See if we can upgrade to b&b later.
+#
+# To do: Update ourselves on course content.
+#
+# Question: Is b&b actully helpful? Or should we just use forward search
+#
+# Lower bound (for value function)-> We die.
+# Can we ever calculate a higher lower bound than that?
+# It seems like that's what we need to make b&b helpful.
+#     - Max damage we can take = max damage we've taken
+#
+# Upper bound (action value function) -> We kill the foe, lose no more hp.
+#     - What max damage can we do? Is it greater than the foe's hp?
+#
+# What is our "expert knowledge" that allows us to bound?
+# Are soft bounds based on beliefs okay?
