@@ -1,15 +1,31 @@
 from reward import Reward
+from action import Action
+from agent import Agent
+from foe import Foe
+from dungeonstate import DungeonState
+import numpy as np
+
+# TODO: Move agent and foe copying into here
 
 def forward_search(
     depth: int = 3,
     discount: float = 0.9,
     agent: Agent,
-    foe: Foe, # We might end up with a belief. How do we do that?
+    foe: Foe, # We might end up with a belief. How do we do that
+    dungeonstate: DungeonState
+    U = utility (float)
     # MC_policy,
-    # forward_search_weight: float = 1,
-    ): -> action: Action, reward: float
+    # forward_search_weight: float = 1
+)
+    idx = dungeonstate.agent_foe_to_index(agent, foe)
 
-    return Action(), reward
+    if depth <= 0:
+        return (Action(agent), U)
+
+    best_action = (Action(agent), - np.inf)
+    Up = forward_search(depth - 1, discount, agent, foe, dungeonstate, U)[1]
+    for a in agent.get_available_actions():
+
 
 
 
@@ -28,6 +44,9 @@ def __lookahead(
     # skip that entirely, we think.
     # Action -> "calculate_action_expectation" which uses our brains and
     # knowledge of probability to "learn" action value [Q(a)]
+
+    # Note - utility of action expectation is the sum of the actor and foe action utilities
+
 
     utility[state] = reward[state] + discount*action_expectation[state, action]
 

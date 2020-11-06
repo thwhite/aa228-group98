@@ -19,7 +19,7 @@ def encounter(bb_agent, bb_foe, policy, turn_count, num_runs):
     """
 
     local_agent = copy.deepcopy(bb_agent)
-    local_foe = copy.deepcopy(bb_foe) # a 'focal', if you will
+    local_foe = copy.deepcopy(bb_foe)  # a 'focal', if you will
     dungeon = DungeonState(local_agent, local_foe)
 
     for i in range(turn_count, num_runs):
@@ -27,3 +27,11 @@ def encounter(bb_agent, bb_foe, policy, turn_count, num_runs):
         turn(local_agent, local_foe, policy[idx])
 
     return local_agent, local_foe
+
+# TODO: This is actually just hte test function now
+#  - Stuff reward in here
+
+# And then metrics runs a ton of encounters with different agents and foes and other hyperparameters
+# and then graphs the results all pretty
+# also throw in search kwargs
+# - depth, discount, other stuff
