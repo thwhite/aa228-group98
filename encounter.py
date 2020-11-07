@@ -28,10 +28,12 @@ def encounter(bb_agent, bb_foe, policy, turn_count, num_runs):
 
     return local_agent, local_foe
 
-# TODO: This is actually just hte test function now
+# @Thomas
+# TODO: This is actually just the test function now
 #  - Stuff reward in here
+# TODO: also throw in search kwargs (depth, discount, other stuff)
 
-# And then metrics runs a ton of encounters with different agents and foes and other hyperparameters
-# and then graphs the results all pretty
-# also throw in search kwargs
-# - depth, discount, other stuff
+# @Valerie
+# Make it so encounter passes out data for metric, etc.
+# And then metrics runs a ton of encounters with different agents and foes and
+# other hyperparameters and then graphs the results all pretty

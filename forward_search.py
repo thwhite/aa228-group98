@@ -33,6 +33,7 @@ def forward_search(
     for a in agent.get_available_actions():
 
 
+# Valerie: Do the thing
 
 
 def __lookahead(
