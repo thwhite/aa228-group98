@@ -47,6 +47,6 @@ class Agent:
         elif policy_step == "hit":
             action = Action(self, 20, "str", 20, "con", "hp", 4, 1)
         else:
-            action = Action(self)  # default
+            action = Action(self)  # default, empty action
 
         return action

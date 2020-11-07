@@ -71,3 +71,7 @@ class Action:
             )
 
         return new_states
+
+    def get_action_expectation(self, target): -> expected_new_states
+
+        return expected_new_states # Todo

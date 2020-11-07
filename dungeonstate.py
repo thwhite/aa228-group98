@@ -93,6 +93,7 @@ def actor_state(actor, state_dict) -> dict:
     return __remove_hp(state_dict[actor])
 
 def __remove_hp(state_dict):
+    
     dict_without_hp = dict(state_dict)
     del dict_without_hp["hp"]
     return dict_without_hp

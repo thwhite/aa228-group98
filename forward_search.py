@@ -1,47 +1,50 @@
-from reward import Reward
-from action import Action
-from agent import Agent
-from foe import Foe
-from dungeonstate import DungeonState
+import copy
 import numpy as np
 
-# TODO: Move agent and foe copying into here
+from action import Action
+from agent import Agent
+from dungeonstate import DungeonState
+from foe import Foe
+from reward import Reward
 
-# Faux foe update here? @Thomas
-# I changed my mind and think it should be here instead of turn bc this is where
-# we hold our simulated foes/agents and turn holds our actual foe/agent.
-# -- Valerie
-# We need a model of reactions -> states.
 
 def forward_search(
     depth: int = 3,
     discount: float = 0.9,
     agent: Agent,
-    foe: Foe, # Faux foe?
+    foe: Foe,
     dungeonstate: DungeonState
-    U = utility (float)
+    reward: Reward
+    utility: float
     # MC_policy,
     # forward_search_weight: float = 1
-)
-    idx = dungeonstate.agent_foe_to_index(agent, foe)
+    ): -> action: str, utility: float
+
+    faux_agent = copy.deepcopy(bb_agent)
+    faux_foe = copy.deepcopy(bb_foe)
+
+    idx = dungeonstate.agent_foe_to_index(faux_agent, faux_foe) # How is this used?
 
     if depth <= 0:
-        return (Action(agent), U)
+        return ("none", utility)
+    best_action = ("none", reward.get_worst_reward())
 
-    best_action = (Action(agent), - np.inf)
-    Up = forward_search(depth - 1, discount, agent, foe, dungeonstate, U)[1]
-    for a in agent.get_available_actions():
+    Up = forward_search(depth-1, discount, agent, foe, dungeonstate, utility)[1]
 
+    for action in agent.get_available_actions():
+        utility = Up + __lookahead(agent, foe, action, reward, discount)
+        if utility > best_action[1]:
+            best_action = (action, utility)
 
-# Valerie: Do the thing
+    return best_action
 
 
 def __lookahead(
     agent: Agent, # Agent and foe represent the full state
     foe: Foe,
     action: Action,
-    reward: Reward, # or is this a Reward object? idk
-    discount: float
+    reward: Reward,
+    discount: float,
     ): -> utility: [float]
 
     # What is transition?
@@ -54,7 +57,8 @@ def __lookahead(
 
     # Note - utility of action expectation is the sum of the actor and foe action utilities
 
-
-    utility[state] = reward[state] + discount*action_expectation[state, action]
+    utility = reward.get_reward(agent, foe) + discount*(
+        reward.get_reward(action.get_action_expectation(foe))
+    )
 
     return utility
