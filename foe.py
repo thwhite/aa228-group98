@@ -1,6 +1,10 @@
 import random
 from action import Action
 
+# foe.react(self.states): <-- Thomas
+#   roar, when #rs is a noisy measurement of % of hp left [1:20?]
+#   q: should we have some other reactions when damage isn't taken?
+
 class Foe:
 
     def __init__(self):

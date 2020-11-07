@@ -10,4 +10,7 @@ def turn(agent, foe, policy):
             for k in delta_states[j]:
                 agent.states[k] = delta_states[j][k]
 
+    # @Thomas see forward_search.py. I think that's where we should update our
+    # faux foe.
+
     foe.decrement_cooldowns()

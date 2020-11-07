@@ -7,11 +7,17 @@ import numpy as np
 
 # TODO: Move agent and foe copying into here
 
+# Faux foe update here? @Thomas
+# I changed my mind and think it should be here instead of turn bc this is where
+# we hold our simulated foes/agents and turn holds our actual foe/agent.
+# -- Valerie
+# We need a model of reactions -> states.
+
 def forward_search(
     depth: int = 3,
     discount: float = 0.9,
     agent: Agent,
-    foe: Foe, # We might end up with a belief. How do we do that
+    foe: Foe, # Faux foe?
     dungeonstate: DungeonState
     U = utility (float)
     # MC_policy,

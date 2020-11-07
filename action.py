@@ -33,6 +33,7 @@ class Action:
             #     2. Compare
             #     3. Roll effect
             #     4. Calculate updates
+            #     5. Target reaction: if target is foe, foe.react(new_states) <-- Valerie
 
         new_states = {
             "actor": {**self.actor.states, **{"hp": self.actor.hp}},

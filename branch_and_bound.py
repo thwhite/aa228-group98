@@ -4,7 +4,7 @@ def branch_and_bound(
     depth: int = 3,
     discount: float = 0.9,
     agent: Agent,
-    foe: Foe, # We might end up with a belief. How do we do that?
+    foe: Foe, # Our faux Foe
     # MC_policy,
     # bb_weight: float = 1,
     ): -> action: Action, reward: float
