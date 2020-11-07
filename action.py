@@ -33,7 +33,6 @@ class Action:
             #     2. Compare
             #     3. Roll effect (probablistic)
             #     4. Calculate updates
-            #     5. Target reacts (probablistic)
 
         new_states = {
             "actor": {**self.actor.states, **{"hp": self.actor.hp}},
@@ -70,7 +69,5 @@ class Action:
             new_states["target"][self.effect] = (
                 new_state if new_state >= 0 else 0
             )
-
-        
 
         return new_states
