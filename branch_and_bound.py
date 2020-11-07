@@ -27,8 +27,6 @@ def __lookahead(
     # Okay, so these need to be defined better
     return utility
 
-
-
 ### Scratch / Notes ###
 
 # Approach: Do forward search instead now. See if we can upgrade to b&b later.
