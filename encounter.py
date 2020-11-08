@@ -1,15 +1,16 @@
 import copy
 import pandas as pd
 
+from action import Action
 from agent import Agent
 from dungeonstate import *
 from foe import Foe
 from forward_search import forward_search
-
+from reward import Reward
 
 def encounter(agent=Agent, foe=Foe, max_turns=int,
-    **forward_search_kwargs, **reward_kwargs
-    ): -> encounter_stats: pd.DataFrame
+    # **forward_search_kwargs, **reward_kwargs, # TODO
+    ) -> pd.DataFrame:
     """
     TODO: document me!!
 
@@ -27,25 +28,26 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
     """
 
     dungeon = DungeonState(agent, foe)
-    reward_function = Reward(agent, foe)
+    reward = Reward(agent, foe)
     utility = reward.get_reward(agent, foe)
 
     faux_foe = Foe() # The belief state of our foe
 
     for turn in range(max_turns):
-        faux_foe = update_foe_belief(faux_foe, foe_reaction)
 
-        idx = dungeon.agent_foe_to_index(agent, foe) # How's this get used again?
+        # How's this get used again?
+        idx = dungeon.agent_foe_to_index(agent, foe)
 
         agent_action = forward_search(
+            # **forward_search_kwargs, # TODO: kwargs
             agent=agent, foe=faux_foe,
-            dungeonstate=dungeonstate,
+            dungeonstate=dungeon,
             reward=reward,
             utility=utility,
-            **forward_search_kwargs
         )
 
         agent, foe, foe_reaction = turn(agent, agent_action, foe)
+        faux_foe = update_foe_belief(faux_foe, foe_reaction)
         utility += reward.get_reward(agent, foe)
 
     encounter_stats = pd.DataFrame() # TODO @Valerie
@@ -54,10 +56,10 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
 
 
 def turn(agent: Agent, agent_action: Action, foe: Foe
-     ): -> agent: Agent, foe: Foe, utility: float
+     ) -> (Agent, Foe, float):
 
     actions = {
-        "agent": {"actor": agent, "action": agent.act(agent_action),
+        "agent": {"actor": agent, "action": agent.act(agent_action)},
         "foe": {"actor": foe, "action": foe.act()},
     }
 

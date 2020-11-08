@@ -1,11 +1,12 @@
-from copy import deepcopy
 import numpy as np
 
 from agent import Agent
 from foe import Foe
 
+
 class DungeonState:
     # TODO: Better documentation
+    # Do we even use this?!?
 
     def __init__(self, initial_agent: Agent, initial_foe: Foe):
         # Note: This assumes that all states start at their max possible value,
@@ -40,18 +41,15 @@ class DungeonState:
 
         return states
 
-
     def agent_foe_to_index(self, agent: Agent, foe: Foe) -> int:
 
         return self.state_to_index(state_dict(agent, foe))
-
 
     def state_to_index(self, states) -> int:
 
         return self.__index_from_states(
             states, self.available_states
         )
-
 
     def __index_from_states(self, states, available_states) -> int:
 
@@ -78,6 +76,7 @@ def state_dict(agent: Agent, foe: Foe) -> dict:
         "foe": {**foe.states, **{"hp": foe.hp}},
     }
 
+
 def flatten_state_dict(state_dict) -> dict:
     # Reduces 2-level dict to 1-level
 
@@ -87,13 +86,15 @@ def flatten_state_dict(state_dict) -> dict:
         for state, value in state_dict[a].items()
     }
 
+
 def actor_state(actor, state_dict) -> dict:
     # Does not include hp. To get hp, use: state_dict[actor]['hp']
 
     return __remove_hp(state_dict[actor])
 
+
 def __remove_hp(state_dict):
-    
+
     dict_without_hp = dict(state_dict)
     del dict_without_hp["hp"]
     return dict_without_hp

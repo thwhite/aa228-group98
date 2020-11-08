@@ -1,6 +1,7 @@
 import numpy as np
 import random
 
+
 class Action:
 
     def __init__(self,
@@ -71,7 +72,3 @@ class Action:
             )
 
         return new_states
-
-    def get_action_expectation(self, target): -> expected_new_states
-
-        return expected_new_states # Todo

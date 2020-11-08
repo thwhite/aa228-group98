@@ -1,11 +1,17 @@
 from agent import Agent
-from foe import Foe
 from dungeonstate import *
+from encounter import encounter
+from foe import Foe
+
 
 bad_guy = Foe()
 good_guy = Agent()
 dungeon_state = DungeonState(good_guy, bad_guy)
 
+encounter(good_guy, bad_guy, 10)
+
+## -- ##
+"""
 print(f'Agent states: {good_guy.states}, hp: {good_guy.hp}')
 print(f'Foe states: {bad_guy.states}, hp: {bad_guy.hp}')
 
@@ -32,3 +38,4 @@ print(f'Final state idx: {final_state_idx}')
 
 final_states = dungeon_state.index_to_states(final_state_idx)
 print(f'Final states, converted back from state idx: {final_states}')
+"""
