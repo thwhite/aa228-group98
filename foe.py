@@ -43,8 +43,9 @@ class Foe:
         elif not self.states["hit_large_cooldown"] and e < 0.7:
             action = Action(self, 20, "str", 20, "dex", "hp", 6, 1)
             self.states["hit_large_cooldown"] = 1
-        elif self.states["buffed"] and e < 0.7:
-            action = Action(self, 20, "int", 20, "none", "radiant_cooldown", 1, 1)
+        elif self.states["buffed"] and e < 0.7 and self.states["radiant_cooldown"] < 2:
+            self.states["radiant_cooldown"] -= 2
+            action = Action(self)
         else:
             action = Action(self, 20, "str", 20, "dex", "hp", 4, 1)
         return action
