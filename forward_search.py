@@ -55,7 +55,8 @@ def __lookahead(
 
     utility = reward.get_reward(agent, foe)
 
-    new_states = action_expectation(agent, foe, agent.act(action))
+    # new_states = action_expectation(agent, foe, agent.act(action))
+    new_states = agent.act(action).resolve_action(foe, "expectation")
     agent.update_states(new_states["agent"])
     foe.update_states(new_states["foe"])
 

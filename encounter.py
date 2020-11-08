@@ -59,10 +59,10 @@ def turn(agent: Agent, agent_action: Action, foe: Foe
      # Not currently very extensible. Oh well.
 
     action = agent.act(agent_action)
-    __update_states(agent, foe, action.resolve_action(foe))
+    __update_states(agent, foe, action.resolve_action(foe, "random"))
 
     action = foe.act()
-    __update_states(foe, agent, action.resolve_action(agent))
+    __update_states(foe, agent, action.resolve_action(agent, "random"))
 
     foe.decrement_cooldowns()
     foe_reaction = foe.react()
