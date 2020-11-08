@@ -35,9 +35,19 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
 
     faux_foe = Foe()  # The belief state of our foe
 
+    # Arrays to hold encounter_stats
+    agent_actions = []
+    agent_healths = []
+    foe_healths = []
+    faux_foe_healths = []
+    forward_search_utilities = []
+    rewards = []
+
+    # TODO: foe reactions and faux foe belief state @Valerie
+
     for i in range(max_turns):
 
-        agent_action = forward_search(
+        agent_action, forward_search_utility = forward_search(
             # **forward_search_kwargs, # TODO: kwargs
             agent=agent, foe=faux_foe,
             dungeonstate=dungeon,
@@ -45,14 +55,27 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
             utility=utility,
         )
 
-        agent, foe, foe_reaction = turn(agent, agent_action[0], foe) # fixed a typo here - passing of agent_action was
-        # leading agent action handler to not do anything ever.
-        print("Agent_health  " + str(agent.hp))
-        print("Foe_health  " + str(foe.hp))
+        agent, foe, foe_reaction = turn(agent, agent_action, foe)
         faux_foe = update_foe_belief(faux_foe, foe_reaction)
-        utility += reward.get_reward(agent, foe)
+        turn_reward = reward.get_reward(agent, foe)
+        utility += turn_reward
 
-    encounter_stats = pd.DataFrame() # TODO @Valerie
+        # Collect turn data into encounter_stats
+        agent_actions.append(agent_action)
+        agent_healths.append(agent.hp)
+        foe_healths.append(foe.hp)
+        faux_foe_healths.append(faux_foe.hp)
+        forward_search_utilities.append(forward_search_utility)
+        rewards.append(turn_reward)
+
+    encounter_stats = pd.DataFrame({
+        "agent actions": agent_actions,
+        "agent health": agent_healths,
+        "foe health": foe_healths,
+        "faux foe health": faux_foe_healths,
+        "forward search utilities": forward_search_utilities,
+        "reward": rewards,
+    })
 
     return agent, foe, encounter_stats
 
@@ -60,9 +83,8 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
 def turn(agent: Agent, agent_action: Action, foe: Foe
      ) -> (Agent, Foe, float):
     # Not currently very extensible. Oh well.
-    # print(agent_action)
+
     action = agent.act(agent_action)
-    # print(action.effect)
     __update_states(agent, foe, action.resolve_action(foe, "random"))
 
     action = foe.act()
