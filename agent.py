@@ -50,3 +50,13 @@ class Agent:
             action = Action(self)  # default, empty action
 
         return action
+
+    def update_states(self, new_states):
+
+        agent_states = dict(new_states["agent"])
+        print(f'agent_states: {agent_states}')
+
+        self.hp = agent_states.pop("hp")
+        print(f'agent_states - hp: {agent_states}')
+
+        self.states = agent_states

@@ -7,6 +7,8 @@ from dungeonstate import *
 from foe import Foe
 from forward_search import forward_search
 from reward import Reward
+from uncertainty import update_foe_belief
+
 
 def encounter(agent=Agent, foe=Foe, max_turns=int,
     # **forward_search_kwargs, **reward_kwargs, # TODO

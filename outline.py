@@ -4,8 +4,14 @@ def monte_carlo()
 def metrics()
 
 
+def test()
+
+
+.requirements.txt
+
 ---
-# Note: commented out means done(ish)
+# Note: commented out means done(ish).
+# Below here not super well updated.
 
 # class Reward:
 #     self.reward_for_kill: float = 1000,
@@ -18,20 +24,18 @@ def metrics()
 #         - get_reward(agent: Agent = Agent(), foe: Foe = Foe()) -> reward: float
 
 
-def test():
-
-
-def branch_and_bound(
-    bb_weight: float = 1,
-    depth: int = 3,
-    discount: float = 0.9,
-    agent: Agent,
-    MC_policy,
-    foe: Foe,
-    ) -> action: Action, reward: float
-
-    subfunctions:
-        - lookahead()
+# def forward_search(
+#     agent: Agent,
+#     foe: Foe,
+#     dungeonstate: DungeonState,
+#     reward: Reward,
+#     utility: float,
+#     depth: int = 3,
+#     discount: float = 0.9
+#     ) -> action: str
+#
+#     subfunctions:
+#         - lookahead()
 
 
 # def encounter(bb_agent, bb_foe, policy, turn_count, num_runs)
@@ -112,8 +116,3 @@ def branch_and_bound(
 #         - get_available_actions() # tells you what actions are possible based on state info
 #         - act() returns action object
 #         - decrement_cooldowns()
-
-
---- scratch/notes ---
-
-.requirements

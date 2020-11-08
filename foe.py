@@ -50,3 +50,13 @@ class Foe:
             self.states["radiant_cooldown"] = self.states["radiant_cooldown"] - 1
         if self.states["hit_large_cooldown"] >= 1:
             self.states["hit_large_cooldown"] = self.states["hit_large_cooldown"] - 1
+
+    def update_states(self, new_states):
+
+        foe_states = dict(new_states["foe"])
+        print(f'foe_states: {foe_states}')
+
+        self.hp = foe_states.pop("hp")
+        print(f'foe_states - hp: {foe_states}')
+
+        self.states = foe_states
