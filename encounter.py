@@ -68,6 +68,10 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
         forward_search_utilities.append(forward_search_utility)
         rewards.append(turn_reward)
 
+        if agent.hp <= 0 or foe.hp <= 0:
+            # end encounter if either dies
+            break
+
     encounter_stats = pd.DataFrame({
         "agent actions": agent_actions,
         "agent health": agent_healths,
