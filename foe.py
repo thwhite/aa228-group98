@@ -65,6 +65,9 @@ class Foe:
     def react(self):
         # Note to grader: this implementation is inefficient, but fun.
         # Adds a number of Rs between 0 and 10 that roughly corresponds to health remaining percentage, with error.
-        signal = "RAW" + "R"*np.clip(int(10 - 10*self.hp/self.max_hp + random.randint(-1, 1)), 0, 10)
-        print("The monster shouts:" + signal)
+        signal = "RAW" + "R"*np.clip(
+            int(10 - 10*self.hp/self.max_hp + random.randint(-1, 1)), 0, 10
+        )
+        print("The monster shouts: " + signal)
+        
         return signal
