@@ -72,8 +72,9 @@ class Action:
             new_state = old_state - effect_roll
 
             # Cannot heal above max hp
-            if effect == "hp":
-                new_state = agent.max_hp if new_state > agent.max_hp
+            if self.effect == "hp":
+                new_state = target.max_hp \
+                    if new_state > target.max_hp else new_state
 
             # States are nonnegative
             new_states["target"][self.effect] = (
