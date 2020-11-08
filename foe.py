@@ -1,9 +1,12 @@
 import random
 from action import Action
+import numpy as np
 
 # foe.react(self.states): <-- Thomas
 #   roar, when #rs is a noisy measurement of % of hp left [1:20?]
 #   q: should we have some other reactions when damage isn't taken?
+#   a: my main concern with that is it's hard to pass in whether or not it just took damage given the way
+#      is framed.
 
 class Foe:
 
@@ -12,6 +15,7 @@ class Foe:
         # possible value, and further that they are ints that cannot go
         # negative.
         self.hp = 127
+        self.max_hp = 127
         self.stats = {
             "str": 4, "dex": 4, "con": 3, "int": 2, "wis": 3, "cha": 3,
             "AC": 20
@@ -58,11 +62,9 @@ class Foe:
         self.hp = foe_states.pop("hp")
         self.states = foe_states
 
-    def signal_damage(self):
+    def react(self):
         # Note to grader: this implementation is inefficient, but fun.
-
-        n = int(14 - self.hp/10 + random.randint(-2, 2))
-        rs = "R"*n
-        signal = "RAW" + rs
+        # Adds a number of Rs between 0 and 10 that roughly corresponds to health remaining percentage, with error.
+        signal = "RAW" + "R"*np.clip(int(10 - self.hp/self.max_hp + random.randint(-1, 1)), 0, 10)
+        print("The monster shouts:" + signal)
         return signal
-        # Possibly add other reactions.

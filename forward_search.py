@@ -46,7 +46,7 @@ def forward_search(
 def __lookahead(
     agent: Agent, # Agent and foe represent the full state
     foe: Foe, # This is a faux foe
-    action: str,
+    action: str, # @Valerie can we rename this policy for clarity, given that we also have a class called action?
     reward: Reward,
     discount: float,
     ) -> float:
