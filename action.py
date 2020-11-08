@@ -66,9 +66,7 @@ class Action:
             effect_roll = sign*self.roll(self.effect_roll, rand) + self.effect_modifier
 
             old_state = new_states["target"][self.effect]
-            new_state = old_state + effect_roll
-
-            print(self.effect, effect_roll)
+            new_state = old_state - effect_roll
 
             # States are nonnegative
             new_states["target"][self.effect] = (

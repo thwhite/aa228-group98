@@ -45,7 +45,10 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
             utility=utility,
         )
 
-        agent, foe, foe_reaction = turn(agent, agent_action, foe)
+        agent, foe, foe_reaction = turn(agent, agent_action[0], foe) # fixed a typo here - passing of agent_action was
+        # leading agent action handler to not do anything ever.
+        print("Agent_health  " + str(agent.hp))
+        print("Foe_health  " + str(foe.hp))
         faux_foe = update_foe_belief(faux_foe, foe_reaction)
         utility += reward.get_reward(agent, foe)
 
@@ -57,8 +60,9 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
 def turn(agent: Agent, agent_action: Action, foe: Foe
      ) -> (Agent, Foe, float):
     # Not currently very extensible. Oh well.
-
+    # print(agent_action)
     action = agent.act(agent_action)
+    # print(action.effect)
     __update_states(agent, foe, action.resolve_action(foe, "random"))
 
     action = foe.act()

@@ -6,8 +6,8 @@ class Agent:
         # Note: DungeonStates assumes that all states start at their max
         # possible value, and further that they are ints that cannot go
         # negative.
-        self.hp = 12
-        self.max_hp = 12
+        self.hp = 120
+        self.max_hp = 120
         self.stats = {
             "str": 2, "dex": 2, "con": 2, "int": 2, "wis": 2, "cha": 2,
             "AC": 15
@@ -22,7 +22,7 @@ class Agent:
             actions.append("harder hit")
         if self.states["spell slots"] != 0:
             actions.extend(["absorb", "claws", "moonbeam"])
-        if self.states["spell_slots"] != 0 and (self.max_hp - self.hp) > 6:
+        if self.states["spell slots"] != 0 and (self.max_hp - self.hp) > 6:
             actions.append("healing")
         return actions
 
