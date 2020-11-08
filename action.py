@@ -88,5 +88,6 @@ class Action:
         if rand == "random":
             return random.randint(1, roll)
         else:
-            return (roll+1)/2
+            return (roll+1)//2
         # @Thomas I don't see a problem with expected value being a float? -- Valerie
+        # Jk I think I found it lmao

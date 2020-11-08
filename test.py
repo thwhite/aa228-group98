@@ -11,6 +11,13 @@ good_guy = Agent()
 
 good_guy, bad_guy, encounter_stats = encounter(good_guy, bad_guy, 100)
 
-print(encounter_stats["agent health"])
+print(encounter_stats["foe reactions"])
 
-## Note: Valerie moved to test.ipynb here because reasons
+good_guy, bad_guy, encounter_stats = encounter(good_guy, bad_guy, 100,
+   forward_search_and_reward_kwargs = {
+       "forward_search": {"depth": 5},
+       "reward": {"penalty_for_dying": -5000},
+   }
+)
+
+## Note: Valerie moved plotting to test.ipynb here because reasons

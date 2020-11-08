@@ -34,6 +34,7 @@ def forward_search(
     Up = forward_search(
         agent, foe, dungeonstate, reward, utility, depth-1, discount
     )[1]
+    
     for action in agent.get_available_actions():
         utility = Up + __lookahead(agent, foe, action, reward, discount)
         if utility > best_action[1]:

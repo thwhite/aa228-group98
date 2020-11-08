@@ -7,6 +7,7 @@ from dungeonstate import *
 def action_expectation(actor, target, action: Action):
 
     # function not implemented - added the implementation to resolve_action instead. thoughts?
+    # sounds fine to me. we can kill this -- @Thomas from Valerie
 
     expected_new_states = state_dict(actor, target)
 
