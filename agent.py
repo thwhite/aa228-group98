@@ -18,7 +18,7 @@ class Agent:
     def get_available_actions(self):
         actions = ["hit", "toggle shield"]
         if not self.states["shield"]:
-            actions.append("harder_hit")
+            actions.append("harder hit")
         if self.states["spell slots"] != 0:
             actions.append(["absorb", "claws", "healing", "moonbeam"])
         return actions
@@ -51,12 +51,9 @@ class Agent:
 
         return action
 
-    def update_states(self, new_states):
+    def update_states(self, new_agent_states):
 
-        agent_states = dict(new_states["agent"])
-        print(f'agent_states: {agent_states}')
+        agent_states = dict(new_agent_states)
 
         self.hp = agent_states.pop("hp")
-        print(f'agent_states - hp: {agent_states}')
-
         self.states = agent_states

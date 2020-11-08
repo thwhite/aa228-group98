@@ -45,27 +45,19 @@ def forward_search(
 
 def __lookahead(
     agent: Agent, # Agent and foe represent the full state
-    foe: Foe,
+    foe: Foe, # This is a faux foe
     action: str,
     reward: Reward,
     discount: float,
     ) -> float:
 
-    # What is transition?
-    # Wait, should we learn it with a model-based approach?
-    # Transition(agent stats, foe stats [unknown -- belief])
-    # Given a belief, do we know the transition matrix? Yes. But also, we can
-    # skip that entirely, we think.
-    # Action -> "calculate_action_expectation" which uses our brains and
-    # knowledge of probability to "learn" action value [Q(a)]
-
-    # Note - utility of action expectation is the sum of the actor and foe action utilities
+    # Note - utility of action is the sum of the actor AND foe action utilities
 
     utility = reward.get_reward(agent, foe)
 
     new_states = action_expectation(agent, foe, agent.act(action))
-    agent.update_states(new_states)
-    foe.update_states(new_states)
+    agent.update_states(new_states["agent"])
+    foe.update_states(new_states["foe"])
 
     utility += discount*reward.get_reward(agent, foe)
 

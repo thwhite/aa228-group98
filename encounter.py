@@ -35,10 +35,7 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
 
     faux_foe = Foe() # The belief state of our foe
 
-    for turn in range(max_turns):
-
-        # How's this get used again?
-        idx = dungeon.agent_foe_to_index(agent, foe)
+    for i in range(max_turns):
 
         agent_action = forward_search(
             # **forward_search_kwargs, # TODO: kwargs
@@ -59,19 +56,21 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
 
 def turn(agent: Agent, agent_action: Action, foe: Foe
      ) -> (Agent, Foe, float):
+     # Not currently very extensible. Oh well.
 
-    actions = {
-        "agent": {"actor": agent, "action": agent.act(agent_action)},
-        "foe": {"actor": foe, "action": foe.act()},
-    }
+    action = agent.act(agent_action)
+    __update_states(agent, foe, action.resolve_action(foe))
 
-    for actor_name, action in actions.items():
-        new_states = action["action"].resolve_action()
-
-        actor.states = actor_state(actor_name, new_states)
-        action["actor"].hp = new_states[actor_name]["hp"]
+    action = foe.act()
+    __update_states(foe, agent, action.resolve_action(agent))
 
     foe.decrement_cooldowns()
     foe_reaction = foe.react()
 
     return (agent, foe, foe_reaction)
+
+
+def __update_states(actor, target, new_states: dict):
+
+    actor.update_states(new_states["actor"])
+    target.update_states(new_states["target"])

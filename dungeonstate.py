@@ -6,7 +6,7 @@ from foe import Foe
 
 class DungeonState:
     # TODO: Better documentation
-    # Do we even use this?!?
+    # Do we even use state_to_idx??? I don't think so?
 
     def __init__(self, initial_agent: Agent, initial_foe: Foe):
         # Note: This assumes that all states start at their max possible value,
@@ -53,7 +53,7 @@ class DungeonState:
 
     def __index_from_states(self, states, available_states) -> int:
 
-        state_dims = flatten_state_dict(available_states)
+        state_dims = __flatten_state_dict(available_states)
         idx = 0
 
         # Reversing necessary to undo calculations in index_to_states()
@@ -77,7 +77,7 @@ def state_dict(agent: Agent, foe: Foe) -> dict:
     }
 
 
-def flatten_state_dict(state_dict) -> dict:
+def __flatten_state_dict(state_dict) -> dict:
     # Reduces 2-level dict to 1-level
 
     return {
@@ -85,16 +85,3 @@ def flatten_state_dict(state_dict) -> dict:
         for a in ["agent", "foe"]
         for state, value in state_dict[a].items()
     }
-
-
-def actor_state(actor, state_dict) -> dict:
-    # Does not include hp. To get hp, use: state_dict[actor]['hp']
-
-    return __remove_hp(state_dict[actor])
-
-
-def __remove_hp(state_dict):
-
-    dict_without_hp = dict(state_dict)
-    del dict_without_hp["hp"]
-    return dict_without_hp

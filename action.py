@@ -45,12 +45,12 @@ class Action:
 
         agent_roll = random.randint(1, self.attack_roll)
         agent_roll += (self.actor.stats[self.attack_modifier]
-            if self.modifier != "none" else 0
+            if self.attack_modifier != "none" else 0
         )
 
         target_roll = random.randint(1, self.target_roll)
         target_roll += (target.stats[self.save_modifier]
-            if self.save_stat != "none" else 0
+            if self.save_modifier != "none" else 0
         )
 
         # Technically in some cases it's a strict inequality, but that's too

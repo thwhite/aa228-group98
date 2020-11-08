@@ -33,13 +33,13 @@ class Foe:
     def act(self):
         e = random.random()
 
-        if not self.states["radiant_breath"] and e < 0.7:
+        if not self.states["radiant_cooldown"] and e < 0.7:
             action = Action(self, 20, "wis", 20, "dex", "hp", 10, 1)
             self.states["radiant_cooldown"] = 4
         elif not self.states["hit_large_cooldown"] and e < 0.7:
             action = Action(self, 20, "str", 20, "dex", "hp", 6, 1)
             self.states["hit_large_cooldown"] = 1
-        elif self.states["buff"] and e < 0.7:
+        elif self.states["buffed"] and e < 0.7:
             action = Action(self, 20, "int", 20, "none", "radiant_cooldown", 1, 1)
         else:
             action = Action(self, 20, "str", 20, "dex", "hp", 4, 1)
@@ -51,12 +51,9 @@ class Foe:
         if self.states["hit_large_cooldown"] >= 1:
             self.states["hit_large_cooldown"] = self.states["hit_large_cooldown"] - 1
 
-    def update_states(self, new_states):
+    def update_states(self, new_foe_states):
 
-        foe_states = dict(new_states["foe"])
-        print(f'foe_states: {foe_states}')
+        foe_states = dict(new_foe_states)
 
         self.hp = foe_states.pop("hp")
-        print(f'foe_states - hp: {foe_states}')
-
         self.states = foe_states
