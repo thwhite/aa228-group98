@@ -59,11 +59,10 @@ class Foe:
         self.states = foe_states
 
     def signal_damage(self):
-        """
-        Note to grader: this implementation is inefficient, but fun.
-        """
+        # Note to grader: this implementation is inefficient, but fun.
+
         n = int(14 - self.hp/10 + random.randint(-2, 2))
         rs = "R"*n
         signal = "RAW" + rs
         return signal
-        # Note: possibly add other reactions.
+        # Possibly add other reactions.
