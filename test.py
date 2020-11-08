@@ -8,4 +8,4 @@ bad_guy = Foe()
 good_guy = Agent()
 dungeon_state = DungeonState(good_guy, bad_guy)
 
-encounter(good_guy, bad_guy, 10)
+encounter(good_guy, bad_guy, 100)

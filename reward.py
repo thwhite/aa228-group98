@@ -26,7 +26,6 @@ class Reward:
         self.reward_per_agent_hp = reward_per_agent_hp
         self.reward_per_foe_hp = reward_per_foe_hp
 
-
     def get_reward(self, agent: Agent, foe: Foe) -> float:
 
         return self.reward_per_agent_hp[agent.hp] + \

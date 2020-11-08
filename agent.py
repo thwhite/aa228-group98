@@ -7,6 +7,7 @@ class Agent:
         # possible value, and further that they are ints that cannot go
         # negative.
         self.hp = 12
+        self.max_hp = 12
         self.stats = {
             "str": 2, "dex": 2, "con": 2, "int": 2, "wis": 2, "cha": 2,
             "AC": 15
@@ -20,7 +21,9 @@ class Agent:
         if not self.states["shield"]:
             actions.append("harder hit")
         if self.states["spell slots"] != 0:
-            actions.append(["absorb", "claws", "healing", "moonbeam"])
+            actions.extend(["absorb", "claws", "moonbeam"])
+        if self.states["spell_slots"] != 0 and (self.max_hp - self.hp) > 6:
+            actions.append("healing")
         return actions
 
     def act(self, policy_step):
@@ -38,7 +41,7 @@ class Agent:
             action = Action(self)
         elif policy_step == "claws":
             action = Action(self, 20, "wis", 20, "wis", "radiant cooldown", 4, 1)
-        elif policy_step == "healing":
+        elif policy_step == "healing": # TODO figure out how we want to handle healing
             action = Action(self, 20, "wis", 20, "none", "hp", 6, -1)
         elif policy_step == "moonbeam":
             action = Action(self, 20, "wis", 20, "con", "hp", 6, 1)

@@ -59,7 +59,6 @@ class Foe:
     def update_states(self, new_foe_states):
 
         foe_states = dict(new_foe_states)
-
         self.hp = foe_states.pop("hp")
         self.states = foe_states
 
