@@ -58,10 +58,12 @@ class Action:
         if agent_roll >= target_roll:
             sign = np.sign(self.effect_modifier)
 
-            effect_roll = sign*np.sum([
-                self.roll(die, rand)
-                for die in self.effect_roll
-            ]) + self.effect_modifier
+            # effect_roll = sign*np.sum([ TODO this breaks because self.effect_roll is currently always an int.
+            #     self.roll(die, rand)
+            #     for die in self.effect_roll
+            # ]) + self.effect_modifier
+
+            effect_roll = sign*self.roll(self.effect_roll, rand) + self.effect_modifier
 
             old_state = new_states["target"][self.effect]
             new_state = old_state - effect_roll

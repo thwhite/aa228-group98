@@ -33,7 +33,7 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
     reward = Reward(agent, foe)
     utility = reward.get_reward(agent, foe)
 
-    faux_foe = Foe() # The belief state of our foe
+    faux_foe = Foe()  # The belief state of our foe
 
     for i in range(max_turns):
 
@@ -56,7 +56,7 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
 
 def turn(agent: Agent, agent_action: Action, foe: Foe
      ) -> (Agent, Foe, float):
-     # Not currently very extensible. Oh well.
+    # Not currently very extensible. Oh well.
 
     action = agent.act(agent_action)
     __update_states(agent, foe, action.resolve_action(foe, "random"))

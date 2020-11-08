@@ -6,7 +6,7 @@ from dungeonstate import *
 
 def action_expectation(actor, target, action: Action):
 
-    # function not implemented - added the implementation to resolve_action instead. thoughts? 
+    # function not implemented - added the implementation to resolve_action instead. thoughts?
 
     expected_new_states = state_dict(actor, target)
 
