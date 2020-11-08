@@ -14,6 +14,9 @@ def action_expectation(actor, target, action: Action):
 
 
 def update_foe_belief(faux_foe, foe_reaction):
+
     if foe_reaction[0:2] == "RAW":
+        # @Thomas: Do we also need to update what we think the faux foe's max hp is?
         faux_foe.hp = faux_foe.max_hp*(len(foe_reaction) - 3)*0.1
+
     return faux_foe

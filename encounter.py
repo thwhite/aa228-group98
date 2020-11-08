@@ -77,7 +77,7 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
         "agent health": agent_healths,
         "foe health": foe_healths,
         "faux foe health": faux_foe_healths,
-        "forward search utilities": forward_search_utilities,
+        "forward search utility": forward_search_utilities,
         "reward": rewards,
     })
 
