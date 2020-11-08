@@ -58,15 +58,22 @@ class Action:
         if agent_roll >= target_roll:
             sign = np.sign(self.effect_modifier)
 
-            # effect_roll = sign*np.sum([ TODO this breaks because self.effect_roll is currently always an int.
+            # TODO this breaks because self.effect_roll is currently always an int.
+            # effect_roll = sign*np.sum([
             #     self.roll(die, rand)
             #     for die in self.effect_roll
             # ]) + self.effect_modifier
+            # @Thomas I saw this and I think your code fixes, so we can kill these lines
 
-            effect_roll = sign*self.roll(self.effect_roll, rand) + self.effect_modifier
+            effect_roll = sign*self.roll(self.effect_roll, rand) \
+                + self.effect_modifier
 
             old_state = new_states["target"][self.effect]
             new_state = old_state - effect_roll
+
+            # Cannot heal above max hp
+            if effect == "hp":
+                new_state = agent.max_hp if new_state > agent.max_hp
 
             # States are nonnegative
             new_states["target"][self.effect] = (
@@ -76,8 +83,9 @@ class Action:
         return new_states
 
     def roll(self, roll, rand):
-        # returns either a random die roll, or the expected value of that die roll
+        # Returns either a random die roll, or the expected value of that die roll
         if rand == "random":
             return random.randint(1, roll)
         else:
-            return int(roll/2)
+            return (roll+1)/2
+        # @Thomas I don't see a problem with expected value being a float? -- Valerie
