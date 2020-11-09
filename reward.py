@@ -41,4 +41,4 @@ class Reward:
 
     def get_worst_reward(self) -> float:
 
-        return self.reward_per_agent_hp[0]
+        return self.reward_per_agent_hp[0] + self.reward_per_foe_hp[-1]
