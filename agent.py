@@ -18,9 +18,11 @@ class Agent:
         if not self.states["shield"]:
             actions.append("harder hit")
         if self.states["spell slots"] != 0:
-            actions.extend(["absorb", "claws", "moonbeam"])
+            actions.extend(["claws", "moonbeam"])
         if self.states["spell slots"] != 0 and (self.max_hp - self.hp) > 6:
             actions.append("healing")
+        if not self.states["absorb"] and self.states["spell slots"] != 0:
+            actions.append("absorb")
         return actions
 
     def act(self, policy_step):
