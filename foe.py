@@ -6,7 +6,7 @@ import numpy as np
 class Foe:
 
     def __init__(self):
-        self.hp = 64
+        self.hp = 32
         self.max_hp = 64
         self.stats = {
             "str": 4, "dex": 4, "con": 3, "int": 2, "wis": 3, "cha": 3,

@@ -11,8 +11,8 @@ class Reward:
         foe: Foe = Foe(),
         reward_for_kill: float = 1000,
         penalty_for_dying: float = -1000,
-        agent_hp_bonus: float = 2,
-        foe_hp_bonus: float = -2,
+        agent_hp_bonus: float = 0,
+        foe_hp_bonus: float = -0.5,
         ):
 
         # See numpy.interp

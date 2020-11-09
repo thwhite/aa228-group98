@@ -1,5 +1,6 @@
 import copy
 import numpy as np
+import random
 
 from action import Action
 from agent import Agent
@@ -14,44 +15,56 @@ def forward_search(
     reward: Reward,
     utility: float,
     depth: int = 3,
-    discount: float = 0.9,
-    # MC_policy,
-    # forward_search_weight: float = 1
+    discount: float = 0.9
     ) -> (str, float):
-
-    agent_copy = copy.deepcopy(agent)
-    foe_copy = copy.deepcopy(foe)
 
     if depth <= 0:
         return ("none", utility)
-    best_action = ("none", reward.get_worst_reward())
 
-    Up = forward_search(
-        agent_copy, foe_copy, reward, utility, depth-1, discount
-    )[1]
+    best_action = ("none", np.NINF)
 
-    for policy_step in agent_copy.get_available_actions():
-        utility = Up + __lookahead(
-            agent_copy, foe_copy, policy_step, reward, discount
+    best_next_action, Up = forward_search(
+        agent, foe, reward, utility, depth-1
+    )
+
+    utilities = {}
+
+    for policy_step in agent.get_available_actions():
+
+        utilities[policy_step] = Up + __lookahead(
+            agent, foe, policy_step, reward, discount
         )
-        if utility > best_action[1]:
-            best_action = (policy_step, utility)
+
+    print(f'UTILITIES: {utilities}')
+
+    max_u_action = max(utilities, key=utilities.get)
+    best_action = (max_u_action, Up)
+
+    turn(agent, best_action[0], foe, "expectation")
 
     return best_action
 
 
 def __lookahead(
     agent: Agent, # Agent and foe represent the full state
-    foe: Foe, # This is a faux foe
+    foe: Foe,
     policy_step: str,
     reward: Reward,
-    discount: float,
+    discount: float
     ) -> float:
 
     agent_copy = copy.deepcopy(agent)
     foe_copy = copy.deepcopy(foe)
 
     utility = reward.get_reward(agent_copy, foe_copy)
+    # print(f'a states before: {agent_copy.states}')
+    # print(f'f states before: {foe_copy.states}')
+    # print(f'utility before lookahead turn: {utility}')
+
     turn(agent_copy, policy_step, foe_copy, "expectation")
+
+    # print(f'a states after: {agent_copy.states}')
+    # print(f'f states after: {foe_copy.states}')
+    # print(f'utility after lookahead turn: {reward.get_reward(agent_copy, foe_copy)}')
 
     return utility + discount*reward.get_reward(agent_copy, foe_copy)

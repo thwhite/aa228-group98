@@ -37,11 +37,7 @@ class Agent:
                 action = Action(self, target_id="self")
             elif not self.states['shield']:
                 self.stats["AC"] -= 2
-                action = Action(
-                    self, attack_roll=20, attack_modifier="str",
-                    target_roll=20, save_modifier="con",
-                    effect="hp", effect_roll=4, effect_modifier=0
-                )
+                action = Action(self, target_id="self")
         elif policy_step == "absorb":
             self.states["absorb"] = 1
             self.states["spell slots"] -= 1
