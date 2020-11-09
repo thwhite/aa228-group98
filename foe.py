@@ -33,16 +33,16 @@ class Foe:
             e = 0
 
         if not self.states["radiant cooldown"] and e < 0.7:
-            action = Action(self, 20, "wis", 20, "dex", "hp", 10, 1)
+            action = Action(self, "other guy", 20, "wis", 20, "dex", "hp", 10, 1)
             self.states["radiant cooldown"] = 4
         elif not self.states["hit large cooldown"] and e < 0.7:
-            action = Action(self, 20, "str", 20, "dex", "hp", 6, 1)
+            action = Action(self, "other guy", 20, "str", 20, "dex", "hp", 6, 1)
             self.states["hit large cooldown"] = 1
         elif self.states["buffed"] and e < 0.7 and self.states["radiant cooldown"] < 2:
             self.states["radiant cooldown"] -= 2
             action = Action(self)
         else:
-            action = Action(self, 20, "str", 20, "dex", "hp", 4, 1)
+            action = Action(self, "other guy", 20, "str", 20, "dex", "hp", 4, 1)
         return action
 
     def decrement_cooldowns(self):

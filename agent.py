@@ -34,15 +34,22 @@ class Agent:
             self.states["shield"] = 1 - self.states["shield"]  # flips the bit
             if self.states["shield"]:
                 self.stats["AC"] += 2
+                action = Action(self)
             elif not self.states['shield']:
                 self.stats["AC"] -= 2
-            action = Action(self)
+                action = Action(
+                    self, attack_roll=20, attack_modifier="str",
+                    target_roll=20, save_modifier="con",
+                    effect="hp", effect_roll=4, effect_modifier=0
+                )
         elif policy_step == "absorb":
             self.states["absorb"] = 1
             self.states["spell slots"] -= 1
+            self.states["shield"] = 1
             action = Action(self)
         elif policy_step == "cool breath":
             self.states["spell slots"] -= 1
+            self.states["shield"] = 1
             action = Action(
                 self, attack_roll=20, attack_modifier="wis",
                 target_roll=20, save_modifier="wis",
@@ -50,17 +57,20 @@ class Agent:
             )
         elif policy_step == "heal":
             self.states["spell slots"] -= 1
+            self.states["shield"] = 1
             action = Action(
-                self, effect="hp", effect_roll=6, effect_modifier=-1
+                self, "self", effect="hp", effect_roll=6, effect_modifier=-1
             )
         elif policy_step == "moonbeam":
             self.states["spell slots"] -= 1
+            self.states["shield"] = 1
             action = Action(
                 self, attack_roll=20, attack_modifier="wis",
                 target_roll=20, save_modifier="con",
                 effect="hp", effect_roll=12, effect_modifier=2
             )
         elif policy_step == "harder hit":
+            self.states["shield"] = 1
             action = Action(
                 self, attack_roll=22, attack_modifier="str",
                 target_roll=20, save_modifier="con",

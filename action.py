@@ -7,6 +7,7 @@ class Action:
 
     def __init__(self,
         actor, # Agent or foe
+        target_id: str = "other guy", # Tells us whether to target ourselves
         attack_roll: int = 1, # Default: No roll
         attack_modifier: str = "none", # Default: No modifier
         target_roll: int = 1, # Default: No roll
@@ -22,6 +23,9 @@ class Action:
         self.actor = actor
         self.attack_roll = attack_roll
         self.attack_modifier = attack_modifier
+
+        self.target_id = target_id
+
         self.target_roll = target_roll
         self.save_modifier = save_modifier
         self.effect = effect
@@ -29,12 +33,17 @@ class Action:
         self.effect_modifier = effect_modifier
 
 
-    def resolve_action(self, target) -> dict:
+    def resolve_action(self, other_guy) -> dict:
         # What is the recipe for an action?
             #     1. Roll dice, add modifiers (probablistic)
             #     2. Compare
             #     3. Roll effect (probablistic)
             #     4. Calculate updates
+
+        if self.target_id == "self":
+            target = self.actor
+        else:
+            target = other_guy
 
         new_states = {
             "actor": {**self.actor.states, **{"hp": self.actor.hp}},
@@ -103,6 +112,9 @@ class Action:
         e_damage = randint(
             self.effect_modifier, self.effect_modifier + self.effect_roll
         ).expect()
+
+        print(f'{self.actor} -> {target}')
+        print(f'{self.effect} p: {p_damage}, e: {e_damage}')
 
         states["target"]["hp"] = states["target"]["hp"] - p_damage*e_damage
 
