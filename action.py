@@ -1,6 +1,8 @@
+import copy
 import numpy as np
-from scipy.stats import randint
 import random
+
+from scipy.stats import randint
 
 
 class Action:
@@ -41,7 +43,7 @@ class Action:
             #     4. Calculate updates
 
         if self.target_id == "self":
-            target = self.actor
+            target = copy.copy(self.actor)
         else:
             target = other_guy
 
@@ -89,8 +91,13 @@ class Action:
 
         return new_states
 
-    def action_expectation(self, target) -> int:
+    def action_expectation(self, other_guy) -> int:
         # What is expectation of an action? P(damage)*E(damage)
+
+        if self.target_id == "self":
+            target = copy.copy(self.actor)
+        else:
+            target = other_guy
 
         states = {
             "actor": {**self.actor.states, **{"hp": self.actor.hp}},
@@ -112,9 +119,6 @@ class Action:
         e_damage = randint(
             self.effect_modifier, self.effect_modifier + self.effect_roll
         ).expect()
-
-        print(f'{self.actor} -> {target}')
-        print(f'{self.effect} p: {p_damage}, e: {e_damage}')
 
         states["target"]["hp"] = states["target"]["hp"] - p_damage*e_damage
 

@@ -23,6 +23,7 @@ def turn(agent: Agent, agent_policy_step: str, foe: Foe, rand="random"
         else foe_action.action_expectation(agent)
     )
 
+
     if foe_action.target_id == "self":
         foe.update_states(new_states["target"])
     else:

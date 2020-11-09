@@ -34,7 +34,7 @@ class Agent:
             self.states["shield"] = 1 - self.states["shield"]  # flips the bit
             if self.states["shield"]:
                 self.stats["AC"] += 2
-                action = Action(self)
+                action = Action(self, target_id="self")
             elif not self.states['shield']:
                 self.stats["AC"] -= 2
                 action = Action(
@@ -46,7 +46,7 @@ class Agent:
             self.states["absorb"] = 1
             self.states["spell slots"] -= 1
             self.states["shield"] = 1
-            action = Action(self)
+            action = Action(self, target_id="self")
         elif policy_step == "cool breath":
             self.states["spell slots"] -= 1
             self.states["shield"] = 1
@@ -59,7 +59,7 @@ class Agent:
             self.states["spell slots"] -= 1
             self.states["shield"] = 1
             action = Action(
-                self, "self", effect="hp", effect_roll=6, effect_modifier=-1
+                self, target_id="self", effect="hp", effect_roll=6, effect_modifier=-1
             )
         elif policy_step == "moonbeam":
             self.states["spell slots"] -= 1
@@ -83,7 +83,7 @@ class Agent:
                 effect="hp", effect_roll=4, effect_modifier=0
             )
         else:
-            action = Action(self)  # default, empty action
+            action = Action(self, target_id="self")  # default, empty action
 
         return action
 

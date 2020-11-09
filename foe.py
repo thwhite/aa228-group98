@@ -13,13 +13,11 @@ class Foe:
             "AC": 20
         }
         self.states = {
-            "buffed": 1, "radiant cooldown": 4, "hit large cooldown": 1
+            "radiant cooldown": 4, "hit large cooldown": 1
         }
 
     def get_available_actions(self):
         actions = ["hit small"]
-        if self.states["buffed"] == 0:
-            actions.append("harder hit")
         if self.states["radiant cooldown"] == 0:
             actions.append("harder hit")
         if self.states["hit large cooldown"] == 0:
@@ -33,12 +31,14 @@ class Foe:
             e = 0
 
         if not self.states["radiant cooldown"] and e < 0.7:
-            action = Action(self, "other guy", 20, "wis", 20, "dex", "hp", 10, 1)
+            action = Action(
+                self, "other guy", 20, "wis", 20, "dex", "hp", 10, 2
+            )
             self.states["radiant cooldown"] = 4
         elif not self.states["hit large cooldown"] and e < 0.7:
             action = Action(self, "other guy", 20, "str", 20, "dex", "hp", 6, 1)
             self.states["hit large cooldown"] = 1
-        elif self.states["buffed"] and e < 0.7 and self.states["radiant cooldown"] < 2:
+        elif self.states["radiant cooldown"] > 2 and e < 0.7:
             self.states["radiant cooldown"] -= 2
             action = Action(self)
         else:
@@ -61,10 +61,9 @@ class Foe:
         # Note to grader: this implementation is inefficient, but fun.
         # Adds a number of Rs between 0 and 10 that roughly corresponds to
         # health remaining, with error.
+
         signal = "RAW" + "R"*np.clip(
             int(14 - self.hp/10 + random.randint(-1, 1)), 0, 14
         )
-
-        # @Thomas: different reactions for buff/debuff/etc if we ever get there?
 
         return signal

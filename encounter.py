@@ -22,7 +22,6 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
     :param forward_search_and_reward_kwargs:
         - forward_search_kwargs:
             - depth: int = 3,
-            - discount: float = 0.9
         - reward_kwargs:
             - reward_for_kill: float = 1000,
             - penalty_for_dying: float = -1000,
@@ -63,8 +62,7 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
         agent_action, foe_reaction = turn(agent, agent_policy, foe)
 
         faux_foe = update_foe_belief(faux_foe, foe_reaction)
-        turn_reward = reward.get_reward(agent, foe)
-        utility += turn_reward
+        utility = reward.get_reward(agent, foe)
 
         # Collect turn data into encounter_stats
         agent_policies.append(agent_policy)
@@ -74,7 +72,7 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
         foe_reactions.append(foe_reaction)
         faux_foe_healths.append(faux_foe.hp)
         forward_search_utilities.append(forward_search_utility)
-        rewards.append(turn_reward)
+        rewards.append(utility)
 
         if agent.hp <= 0 or foe.hp <= 0:
             # end encounter if either dies
