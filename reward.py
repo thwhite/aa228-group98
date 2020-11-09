@@ -28,8 +28,11 @@ class Reward:
 
     def get_reward(self, agent: Agent, foe: Foe) -> float:
 
-        return self.reward_per_agent_hp[agent.hp] + \
-            self.reward_per_foe_hp[foe.hp]
+        agent_hp = round(agent.hp)
+        foe_hp = round(agent.hp)
+
+        return self.reward_per_agent_hp[agent_hp] + \
+            self.reward_per_foe_hp[foe_hp]
 
     def get_worst_reward(self) -> float:
 

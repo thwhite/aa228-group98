@@ -62,8 +62,6 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
 
         agent, agent_action, foe, foe_reaction = turn(agent, agent_action, foe)
 
-        print(f'agent_action: {agent_action}')
-
         faux_foe = update_foe_belief(faux_foe, agent_action, foe_reaction)
         turn_reward = reward.get_reward(agent, foe)
         utility += turn_reward

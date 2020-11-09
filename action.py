@@ -62,12 +62,8 @@ class Action:
             effect_roll = sign*random.randint(1, self.effect_roll) \
             + self.effect_modifier
 
-            print(f'effect roll: {effect_roll}')
-
             old_state = new_states["target"][self.effect]
             new_state = old_state - effect_roll
-
-            print(f'{target}\n old_state {old_state}\n new_state: {new_state}')
 
             # Cannot heal above max hp
             if self.effect == "hp":
@@ -78,29 +74,26 @@ class Action:
             new_states["target"][self.effect] = (
                 new_state if new_state >= 0 else 0
             )
-        else:
-            print('nuthing happned')
 
         return new_states
 
-    def action_expectation(self, target) -> dict:
+    def action_expectation(self, target) -> int:
         # What is expectation of an action? P(damage)*E(damage)
 
-        new_states = {
-            "actor": {**self.actor.states, **{"hp": self.actor.hp}},
-            "target": {**target.states, **{"hp": target.hp}}
-        }
+        if self.effect != "hp":
+            return 0
 
         add_to_roll = (
             self.actor.stats[self.attack_modifier]
             if self.attack_modifier != "none" else 0
         )
 
-        if self.effect != "hp":
-            return new_states
-        else:
-            p_damage = randint(
-                add_to_roll, add_to_roll + self.attack_roll
-            ).sf(target.stats["AC"]) # survival function = 1 - cdf
+        p_damage = randint(
+            add_to_roll, add_to_roll + self.attack_roll
+        ).sf(target.stats["AC"]) # survival function = 1 - cdf
 
-        return new_states
+        e_damage = randint(
+            self.effect_modifier, self.effect_modifier + self.effect_roll
+        ).expect()
+
+        return p_damage*e_damage
