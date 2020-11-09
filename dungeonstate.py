@@ -5,8 +5,7 @@ from foe import Foe
 
 
 class DungeonState:
-    # TODO: Better documentation
-    # Do we even use state_to_idx??? I don't think so?
+    # TODO: Gut this because we don't use it. :(
 
     def __init__(self, initial_agent: Agent, initial_foe: Foe):
         # Note: This assumes that all states start at their max possible value,
@@ -25,6 +24,7 @@ class DungeonState:
             for a, a_max_state in max_states.items()
         }
 
+    # THESE DON'T EVEN GET USEDDDDD
     def index_to_states(self, idx) -> dict:
 
         states = {}
@@ -41,16 +41,19 @@ class DungeonState:
 
         return states
 
+    # THESE DON'T EVEN GET USEDDDDD
     def agent_foe_to_index(self, agent: Agent, foe: Foe) -> int:
 
         return self.state_to_index(state_dict(agent, foe))
 
+    # THESE DON'T EVEN GET USEDDDDD
     def state_to_index(self, states) -> int:
 
         return self.__index_from_states(
             states, self.available_states
         )
 
+    # THESE DON'T EVEN GET USEDDDDD
     def __index_from_states(self, states, available_states) -> int:
 
         state_dims = __flatten_state_dict(available_states)

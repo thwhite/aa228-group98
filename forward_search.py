@@ -20,13 +20,8 @@ def forward_search(
     # forward_search_weight: float = 1
     ) -> (str, float):
 
-    print(depth)
-
     agent_copy = copy.deepcopy(agent)
     foe_copy = copy.deepcopy(foe)
-
-    # How is this used?
-    # idx = dungeonstate.agent_foe_to_index(faux_agent, faux_foe)
 
     if depth <= 0:
         return ("none", utility)

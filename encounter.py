@@ -35,10 +35,8 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
         forward_search_and_reward_kwargs
     )
 
-    print(forward_search_kwargs)
-
     dungeon = DungeonState(agent, foe)
-    reward = Reward(agent, foe, ** reward_kwargs)
+    reward = Reward(agent, foe, **reward_kwargs)
     utility = reward.get_reward(agent, foe)
 
     faux_foe = Foe()  # The belief state of our foe
