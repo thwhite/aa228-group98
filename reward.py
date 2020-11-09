@@ -36,6 +36,6 @@ class Reward:
             left=self.reward_for_kill
         )
 
-    def get_worst_reward(self) -> float:
-
-        return self.penalty_for_dying + self.reward_per_foe_hp[-1]
+    # def get_worst_reward(self) -> float:
+    #
+    #     return self.penalty_for_dying + self.reward_per_foe_hp[-1]
