@@ -57,7 +57,10 @@ class Action:
         # Technically in some cases it's a strict inequality, but that's too
         # subtle to model right now
         if agent_roll >= target_roll:
-            sign = np.sign(self.effect_modifier)
+            if self.effect_modifier == 0:
+                sign = 1
+            else:
+                sign = np.sign(self.effect_modifier)
 
             effect_roll = sign*random.randint(1, self.effect_roll) \
             + self.effect_modifier

@@ -17,12 +17,15 @@ class Agent:
         actions = ["hit", "toggle shield"]
         if not self.states["shield"]:
             actions.append("harder hit")
-        if self.states["spell slots"] != 0:
-            actions.extend(["claws", "moonbeam"])
-        if self.states["spell slots"] != 0 and (self.max_hp - self.hp) > 6:
-            actions.append("healing")
-        if not self.states["absorb"] and self.states["spell slots"] != 0:
-            actions.append("absorb")
+            if self.states["spell slots"] != 0:
+                actions.append("cool breath")
+                if (self.max_hp - self.hp) > 6:
+                    actions.append("heal")
+                if self.states["absorb"]:
+                    actions.append("moonbeam")
+                else:
+                    actions.append("absorb")
+
         return actions
 
     def act(self, policy_step):
@@ -38,19 +41,37 @@ class Agent:
             self.states["absorb"] = 1
             self.states["spell slots"] -= 1
             action = Action(self)
-        elif policy_step == "claws":
+        elif policy_step == "cool breath":
             self.states["spell slots"] -= 1
-            action = Action(self, 20, "wis", 20, "wis", "radiant cooldown", 4, 1)
-        elif policy_step == "healing":
+            action = Action(
+                self, attack_roll=20, attack_modifier="wis",
+                target_roll=20, save_modifier="wis",
+                effect="radiant cooldown", effect_roll=4, effect_modifier=-1
+            )
+        elif policy_step == "heal":
             self.states["spell slots"] -= 1
-            action = Action(self, 20, "wis", 20, "none", "hp", 6, -1)
+            action = Action(
+                self, effect="hp", effect_roll=6, effect_modifier=-1
+            )
         elif policy_step == "moonbeam":
             self.states["spell slots"] -= 1
-            action = Action(self, 20, "wis", 20, "con", "hp", 6, 1)
+            action = Action(
+                self, attack_roll=20, attack_modifier="wis",
+                target_roll=20, save_modifier="con",
+                effect="hp", effect_roll=12, effect_modifier=2
+            )
         elif policy_step == "harder hit":
-            action = Action(self, 30, "str", 20, "con", "hp", 6, 1)
+            action = Action(
+                self, attack_roll=22, attack_modifier="str",
+                target_roll=20, save_modifier="con",
+                effect="hp", effect_roll=6, effect_modifier=2
+            )
         elif policy_step == "hit":
-            action = Action(self, 20, "str", 20, "con", "hp", 4, 1)
+            action = Action(
+                self, attack_roll=20, attack_modifier="str",
+                target_roll=20, save_modifier="con",
+                effect="hp", effect_roll=4, effect_modifier=0
+            )
         else:
             action = Action(self)  # default, empty action
 
