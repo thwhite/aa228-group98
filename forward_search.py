@@ -20,8 +20,10 @@ def forward_search(
     # forward_search_weight: float = 1
     ) -> (str, float):
 
-    faux_agent = copy.deepcopy(agent)
-    faux_foe = copy.deepcopy(foe)
+    print(depth)
+
+    agent_copy = copy.deepcopy(agent)
+    foe_copy = copy.deepcopy(foe)
 
     # How is this used?
     # idx = dungeonstate.agent_foe_to_index(faux_agent, faux_foe)
@@ -31,11 +33,11 @@ def forward_search(
     best_action = ("none", reward.get_worst_reward())
 
     Up = forward_search(
-        agent, foe, dungeonstate, reward, utility, depth-1, discount
+        agent_copy, foe_copy, dungeonstate, reward, utility, depth-1, discount
     )[1]
 
-    for action in agent.get_available_actions():
-        utility = Up + __lookahead(agent, foe, action, reward, discount)
+    for action in agent_copy.get_available_actions():
+        utility = Up + __lookahead(agent_copy, foe_copy, action, reward, discount)
         if utility > best_action[1]:
             best_action = (action, utility)
 
@@ -45,18 +47,21 @@ def forward_search(
 def __lookahead(
     agent: Agent, # Agent and foe represent the full state
     foe: Foe, # This is a faux foe
-    action: str, # @Valerie can we rename this policy for clarity, given that we also have a class called action?
+    action: str, # TODO: rename action here to a string or something
     reward: Reward,
     discount: float,
     ) -> float:
 
+    agent_copy = copy.deepcopy(agent)
+    foe_copy = copy.deepcopy(foe)
+
     # Note - utility of action is the sum of the actor AND foe action utilities
-    utility = reward.get_reward(agent, foe)
+    utility = reward.get_reward(agent_copy, foe_copy)
 
-    new_states = agent.act(action).resolve_action(foe)
-    agent.update_states(new_states["actor"])
-    foe.update_states(new_states["target"])
+    new_states = agent_copy.act(action).resolve_action(foe_copy)
+    agent_copy.update_states(new_states["actor"])
+    foe_copy.update_states(new_states["target"])
 
-    utility += discount*reward.get_reward(agent, foe)
+    utility += discount*reward.get_reward(agent_copy, foe_copy)
 
     return utility

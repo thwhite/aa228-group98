@@ -40,10 +40,13 @@ class Agent:
             self.states["spell slots"] -= 1
             action = Action(self)
         elif policy_step == "claws":
+            self.states["spell slots"] -= 1
             action = Action(self, 20, "wis", 20, "wis", "radiant cooldown", 4, 1)
         elif policy_step == "healing":
+            self.states["spell slots"] -= 1
             action = Action(self, 20, "wis", 20, "none", "hp", 6, -1)
         elif policy_step == "moonbeam":
+            self.states["spell slots"] -= 1
             action = Action(self, 20, "wis", 20, "con", "hp", 6, 1)
         elif policy_step == "harder hit":
             action = Action(self, 30, "str", 20, "con", "hp", 6, 1)
