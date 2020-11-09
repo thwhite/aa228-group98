@@ -52,7 +52,7 @@ def __lookahead(
     foe_copy = copy.deepcopy(foe)
 
     utility = reward.get_reward(agent_copy, foe_copy)
-
-    turn(agent_copy, policy_step, foe_copy)
+    # TODO: replace this with action expectation, silly
+    turn(agent_copy, policy_step, foe_copy, "expectation")
 
     return utility + discount*reward.get_reward(agent_copy, foe_copy)

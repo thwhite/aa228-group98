@@ -80,8 +80,13 @@ class Action:
     def action_expectation(self, target) -> int:
         # What is expectation of an action? P(damage)*E(damage)
 
+        states = {
+            "actor": {**self.actor.states, **{"hp": self.actor.hp}},
+            "target": {**target.states, **{"hp": target.hp}}
+        }
+
         if self.effect != "hp":
-            return 0
+            return states
 
         add_to_roll = (
             self.actor.stats[self.attack_modifier]
@@ -96,4 +101,6 @@ class Action:
             self.effect_modifier, self.effect_modifier + self.effect_roll
         ).expect()
 
-        return p_damage*e_damage
+        states["target"]["hp"] = states["target"]["hp"] - p_damage*e_damage
+
+        return states
