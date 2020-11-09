@@ -31,22 +31,22 @@ class Agent:
         if policy_step == "toggle shield":
             self.states["shield"] = 1 - self.states["shield"]  # flips the bit
             if self.states["shield"]:
-                self.stats["wis"] += 2
+                self.stats["AC"] += 2
             elif not self.states['shield']:
-                self.stats["wis"] -= 2
+                self.stats["AC"] -= 2
             action = Action(self)
         elif policy_step == "absorb":
             self.states["absorb"] = 1
             self.states["spell slots"] -= 1
             action = Action(self)
         elif policy_step == "claws":
-            action = Action(self, 20, "wis", 20, "wis", "radiant cooldown", 4, 1)
-        elif policy_step == "healing": # TODO figure out how we want to handle healing
+            action = Action(self, 20, "wis", 20, "wis", "ac", 4, 1)
+        elif policy_step == "healing":
             action = Action(self, 20, "wis", 20, "none", "hp", 6, -1)
         elif policy_step == "moonbeam":
             action = Action(self, 20, "wis", 20, "con", "hp", 6, 1)
         elif policy_step == "harder hit":
-            action = Action(self, 20, "str", 20, "con", "hp", 10, 1)
+            action = Action(self, 30, "str", 20, "con", "hp", 10, 1)
         elif policy_step == "hit":
             action = Action(self, 20, "str", 20, "con", "hp", 4, 1)
         else:
