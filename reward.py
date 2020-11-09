@@ -2,7 +2,6 @@ import numpy as np
 
 from action import Action
 from agent import Agent
-from dungeonstate import *
 from foe import Foe
 
 class Reward:

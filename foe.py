@@ -6,9 +6,6 @@ import numpy as np
 class Foe:
 
     def __init__(self):
-        # Note: DungeonStates assumes that all states start at their max
-        # possible value, and further that they are ints that cannot go
-        # negative.
         self.hp = 127
         self.max_hp = 127
         self.stats = {

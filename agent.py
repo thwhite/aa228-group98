@@ -3,9 +3,6 @@ from action import Action
 class Agent:
 
     def __init__(self):
-        # Note: DungeonStates assumes that all states start at their max
-        # possible value, and further that they are ints that cannot go
-        # negative.
         self.hp = 120
         self.max_hp = 120
         self.stats = {
