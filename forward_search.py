@@ -3,15 +3,14 @@ import numpy as np
 
 from action import Action
 from agent import Agent
-from dungeonstate import DungeonState
 from foe import Foe
 from reward import Reward
+from turn import turn
 
 
 def forward_search(
     agent: Agent,
     foe: Foe,
-    dungeonstate: DungeonState,
     reward: Reward,
     utility: float,
     depth: int = 3,
@@ -28,13 +27,15 @@ def forward_search(
     best_action = ("none", reward.get_worst_reward())
 
     Up = forward_search(
-        agent_copy, foe_copy, dungeonstate, reward, utility, depth-1, discount
+        agent_copy, foe_copy, reward, utility, depth-1, discount
     )[1]
 
-    for action in agent_copy.get_available_actions():
-        utility = Up + __lookahead(agent_copy, foe_copy, action, reward, discount)
+    for policy_step in agent_copy.get_available_actions():
+        utility = Up + __lookahead(
+            agent_copy, foe_copy, policy_step, reward, discount
+        )
         if utility > best_action[1]:
-            best_action = (action, utility)
+            best_action = (policy_step, utility)
 
     return best_action
 
@@ -42,7 +43,7 @@ def forward_search(
 def __lookahead(
     agent: Agent, # Agent and foe represent the full state
     foe: Foe, # This is a faux foe
-    action: str, # TODO: rename action here to a string or something
+    policy_step: str,
     reward: Reward,
     discount: float,
     ) -> float:
@@ -50,13 +51,8 @@ def __lookahead(
     agent_copy = copy.deepcopy(agent)
     foe_copy = copy.deepcopy(foe)
 
-    # Note - utility of action is the sum of the actor AND foe action utilities
     utility = reward.get_reward(agent_copy, foe_copy)
 
-    new_states = agent_copy.act(action).resolve_action(foe_copy)
-    agent_copy.update_states(new_states["actor"])
-    foe_copy.update_states(new_states["target"])
+    turn(agent_copy, policy_step, foe_copy)
 
-    utility += discount*reward.get_reward(agent_copy, foe_copy)
-
-    return utility
+    return utility + discount*reward.get_reward(agent_copy, foe_copy)

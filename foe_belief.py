@@ -2,7 +2,7 @@ from action import Action
 from foe import Foe
 
 
-def update_foe_belief(faux_foe: Foe, agent_action, foe_reaction: str):
+def update_foe_belief(faux_foe: Foe, foe_reaction: str):
 
     if "RAW" in foe_reaction:
 
