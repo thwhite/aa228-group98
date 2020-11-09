@@ -60,9 +60,9 @@ class Foe:
     def react(self):
         # Note to grader: this implementation is inefficient, but fun.
         # Adds a number of Rs between 0 and 10 that roughly corresponds to
-        # health remaining percentage, with error.
+        # health remaining, with error.
         signal = "RAW" + "R"*np.clip(
-            int(14 - self.hp/10 + random.randint(-1, 1)), 0, 10
+            int(14 - self.hp/10 + random.randint(-1, 1)), 0, 14
         )
 
         # @Thomas: different reactions for buff/debuff/etc if we ever get there?
