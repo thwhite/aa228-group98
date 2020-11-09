@@ -12,11 +12,11 @@ def turn(agent: Agent, agent_policy_step: str, foe: Foe, rand="random"
     else:
         __update_states(agent, foe, agent_action.action_expectation(foe))
 
-    foe_action = foe.act()
+    foe_action = foe.act("random")
     if rand == "random":
         __update_states(foe, agent, foe_action.resolve_action(agent))
     else:
-        __update_states(foe, agent, foe_action.resolve_action(agent))
+        __update_states(foe, agent, foe_action.action_expectation(agent))
 
     foe.decrement_cooldowns()
     foe_reaction = foe.react()

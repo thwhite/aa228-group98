@@ -26,8 +26,11 @@ class Foe:
             actions.append(["hit large"])
         return actions
 
-    def act(self):
-        e = random.random()
+    def act(self, mode):
+        if mode == "random":
+            e = random.random()
+        else:
+            e = 0
 
         if not self.states["radiant cooldown"] and e < 0.7:
             action = Action(self, 20, "wis", 20, "dex", "hp", 10, 1)
