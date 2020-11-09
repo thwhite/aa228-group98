@@ -8,11 +8,11 @@ class Agent:
         self.hp = 64
         self.max_hp = 64
         self.stats = {
-            "str": 2, "dex": 0, "con": 2, "int": 2, "wis": 4, "cha": -2,
-            "AC": 15
+            "str": 2, "dex": 2, "con": 2, "int": 2, "wis": 2, "cha": 2,
+            "AC": 13
         }  # six traditional stats and AC
         self.states = {
-            "shield": 1, "absorb": 0, "spell slots": 6
+            "shield": 0, "absorb": 0, "spell slots": 6
         }
 
     def get_available_actions(self):

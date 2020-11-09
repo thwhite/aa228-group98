@@ -9,8 +9,8 @@ class Foe:
         self.hp = 127
         self.max_hp = 127
         self.stats = {
-            "str": 5, "dex": 3, "con": 3, "int": 0, "wis": 0, "cha": 3,
-            "AC": 18
+            "str": 2, "dex": 2, "con": 2, "int": 2, "wis": 2, "cha": 2,
+            "AC": 16
         }
         self.states = {
             "radiant cooldown": 4, "hit large cooldown": 1
