@@ -6,10 +6,10 @@ import numpy as np
 class Foe:
 
     def __init__(self):
-        self.hp = 32
-        self.max_hp = 64
+        self.hp = 127
+        self.max_hp = 127
         self.stats = {
-            "str": 4, "dex": 4, "con": 3, "int": 2, "wis": 3, "cha": 3,
+            "str": 5, "dex": 3, "con": 3, "int": 0, "wis": 0, "cha": 3,
             "AC": 20
         }
         self.states = {
@@ -36,14 +36,19 @@ class Foe:
             )
             self.states["radiant cooldown"] = 4
         elif not self.states["hit large cooldown"] and e < 0.7:
-            action = Action(self, "other guy", 20, "str", 20, "dex", "hp", 6, 1)
+            action = Action(
+                self, "other guy", 20, "str", 1, "AC", "hp", 6, 2
+            )
             self.states["hit large cooldown"] = 1
         elif self.states["radiant cooldown"] > 2 and e < 0.7:
             self.states["radiant cooldown"] -= 2
-            action = Action(self)
+            action = Action(self, "self")
         else:
-            action = Action(self, "other guy", 20, "str", 20, "dex", "hp", 4, 1)
+            action = Action(
+                self, "other guy", 20, "str", 1, "AC", "hp", 4, 1
+            )
         return action
+
 
     def decrement_cooldowns(self):
         if self.states["radiant cooldown"] >= 1:

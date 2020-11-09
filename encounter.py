@@ -4,7 +4,7 @@ import pandas as pd
 from action import Action
 from agent import Agent
 from foe import Foe
-from forward_search import forward_search
+from forward_search import *
 from reward import Reward
 from foe_belief import update_foe_belief
 from turn import turn
@@ -42,6 +42,7 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
 
     # Arrays to hold encounter_stats
     agent_policies = []
+    agent_spell_slots = []
     agent_shields = []
     agent_healths = []
     foe_healths = []
@@ -62,10 +63,11 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
         agent_action, foe_reaction = turn(agent, agent_policy, foe)
 
         faux_foe = update_foe_belief(faux_foe, foe_reaction)
-        utility = reward.get_reward(agent, foe)
+        utility += reward.get_reward(agent, foe)
 
         # Collect turn data into encounter_stats
         agent_policies.append(agent_policy)
+        agent_spell_slots.append(agent.states["spell slots"])
         agent_shields.append(agent.states["shield"])
         agent_healths.append(agent.hp)
         foe_healths.append(foe.hp)
@@ -80,13 +82,14 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
 
     encounter_stats = pd.DataFrame({
         "agent actions": agent_policies,
+        "agent spell slots": agent_spell_slots,
         "agent shield": agent_shields,
         "agent health": agent_healths,
         "foe health": foe_healths,
         "foe reactions": foe_reactions,
         "faux foe health": faux_foe_healths,
         "forward search utility": forward_search_utilities,
-        "reward": rewards,
+        "utility": rewards,
     })
 
     return agent, foe, encounter_stats

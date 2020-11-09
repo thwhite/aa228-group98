@@ -107,14 +107,20 @@ class Action:
         if self.effect != "hp":
             return states
 
+        add_to_save = (
+            target.stats[self.save_modifier] if self.save_modifier != "none" else 0
+        )
+        e_save = randint(
+            add_to_save, add_to_save + self.target_roll
+        ).expect()
+
         add_to_roll = (
-            self.actor.stats[self.attack_modifier]
-            if self.attack_modifier != "none" else 0
+            self.actor.stats[self.attack_modifier] if self.attack_modifier != "none" else 0
         )
 
         p_damage = randint(
             add_to_roll, add_to_roll + self.attack_roll
-        ).sf(target.stats["AC"]) # survival function = 1 - cdf
+        ).sf(e_save) # survival function = 1 - cdf
 
         e_damage = randint(
             self.effect_modifier, self.effect_modifier + self.effect_roll
