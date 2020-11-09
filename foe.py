@@ -6,8 +6,8 @@ import numpy as np
 class Foe:
 
     def __init__(self):
-        self.hp = 127
-        self.max_hp = 127
+        self.hp = 64
+        self.max_hp = 64
         self.stats = {
             "str": 4, "dex": 4, "con": 3, "int": 2, "wis": 3, "cha": 3,
             "AC": 20
@@ -22,7 +22,7 @@ class Foe:
             actions.append("harder hit")
         if self.states["radiant cooldown"] == 0:
             actions.append("harder hit")
-        if self.states["hit large cooldown"] != 0:
+        if self.states["hit large cooldown"] == 0:
             actions.append(["hit large"])
         return actions
 

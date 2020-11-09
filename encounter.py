@@ -43,6 +43,7 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
 
     # Arrays to hold encounter_stats
     agent_policies = []
+    agent_shields = []
     agent_healths = []
     foe_healths = []
     foe_reactions = []
@@ -53,7 +54,7 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
     for i in range(max_turns):
 
         agent_policy, forward_search_utility = forward_search(
-            agent=agent, foe=faux_foe,
+            agent=copy.deepcopy(agent), foe=copy.deepcopy(faux_foe),
             reward=reward,
             utility=utility,
             **forward_search_kwargs
@@ -67,6 +68,7 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
 
         # Collect turn data into encounter_stats
         agent_policies.append(agent_policy)
+        agent_shields.append(agent.states["shield"])
         agent_healths.append(agent.hp)
         foe_healths.append(foe.hp)
         foe_reactions.append(foe_reaction)
@@ -80,6 +82,7 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
 
     encounter_stats = pd.DataFrame({
         "agent actions": agent_policies,
+        "agent shield": agent_shields,
         "agent health": agent_healths,
         "foe health": foe_healths,
         "foe reactions": foe_reactions,
