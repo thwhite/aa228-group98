@@ -6,7 +6,6 @@ from agent import Agent
 from dungeonstate import DungeonState
 from foe import Foe
 from reward import Reward
-from uncertainty import action_expectation
 
 
 def forward_search(
@@ -34,7 +33,7 @@ def forward_search(
     Up = forward_search(
         agent, foe, dungeonstate, reward, utility, depth-1, discount
     )[1]
-    
+
     for action in agent.get_available_actions():
         utility = Up + __lookahead(agent, foe, action, reward, discount)
         if utility > best_action[1]:
@@ -52,11 +51,9 @@ def __lookahead(
     ) -> float:
 
     # Note - utility of action is the sum of the actor AND foe action utilities
-
     utility = reward.get_reward(agent, foe)
 
-    # new_states = action_expectation(agent, foe, agent.act(action))
-    new_states = agent.act(action).resolve_action(foe, "expectation")
+    new_states = agent.act(action).resolve_action(foe)
     agent.update_states(new_states["actor"])
     foe.update_states(new_states["target"])
 

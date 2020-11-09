@@ -7,7 +7,7 @@ from dungeonstate import *
 from foe import Foe
 from forward_search import forward_search
 from reward import Reward
-from uncertainty import update_foe_belief
+from foe_belief import update_foe_belief
 
 
 def encounter(agent=Agent, foe=Foe, max_turns=int,
@@ -60,8 +60,11 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
             **forward_search_kwargs
         )
 
-        agent, foe, foe_reaction = turn(agent, agent_action, foe)
-        faux_foe = update_foe_belief(faux_foe, foe_reaction)
+        agent, agent_action, foe, foe_reaction = turn(agent, agent_action, foe)
+
+        print(f'agent_action: {agent_action}')
+
+        faux_foe = update_foe_belief(faux_foe, agent_action, foe_reaction)
         turn_reward = reward.get_reward(agent, foe)
         utility += turn_reward
 
@@ -92,19 +95,19 @@ def encounter(agent=Agent, foe=Foe, max_turns=int,
 
 
 def turn(agent: Agent, agent_action: Action, foe: Foe
-     ) -> (Agent, Foe, float):
+     ) -> (Agent, Foe, str):
     # Not currently very extensible. Oh well.
 
-    action = agent.act(agent_action)
-    __update_states(agent, foe, action.resolve_action(foe, "random"))
+    agent_action = agent.act(agent_action)
+    __update_states(agent, foe, agent_action.resolve_action(foe))
 
-    action = foe.act()
-    __update_states(foe, agent, action.resolve_action(agent, "random"))
+    foe_action = foe.act()
+    __update_states(foe, agent, foe_action.resolve_action(agent))
 
     foe.decrement_cooldowns()
     foe_reaction = foe.react()
 
-    return (agent, foe, foe_reaction)
+    return (agent, agent_action, foe, foe_reaction)
 
 
 def __update_states(actor, target, new_states: dict):

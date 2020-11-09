@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.stats import randint
 import random
 
 
@@ -28,7 +29,7 @@ class Action:
         self.effect_modifier = effect_modifier
 
 
-    def resolve_action(self, target, rand) -> dict:
+    def resolve_action(self, target) -> dict:
         # What is the recipe for an action?
             #     1. Roll dice, add modifiers (probablistic)
             #     2. Compare
@@ -43,12 +44,12 @@ class Action:
         if self.effect == "none":
             return new_states
 
-        agent_roll = self.roll(self.attack_roll, rand)
+        agent_roll = random.randint(1, self.attack_roll)
         agent_roll += (self.actor.stats[self.attack_modifier]
             if self.attack_modifier != "none" else 0
         )
 
-        target_roll = self.roll(self.target_roll, rand)
+        target_roll = random.randint(1, self.target_roll)
         target_roll += (target.stats[self.save_modifier]
             if self.save_modifier != "none" else 0
         )
@@ -58,18 +59,15 @@ class Action:
         if agent_roll >= target_roll:
             sign = np.sign(self.effect_modifier)
 
-            # TODO this breaks because self.effect_roll is currently always an int.
-            # effect_roll = sign*np.sum([
-            #     self.roll(die, rand)
-            #     for die in self.effect_roll
-            # ]) + self.effect_modifier
-            # @Thomas I saw this and I think your code fixes, so we can kill these lines
+            effect_roll = sign*random.randint(1, self.effect_roll) \
+            + self.effect_modifier
 
-            effect_roll = sign*self.roll(self.effect_roll, rand) \
-                + self.effect_modifier
+            print(f'effect roll: {effect_roll}')
 
             old_state = new_states["target"][self.effect]
             new_state = old_state - effect_roll
+
+            print(f'{target}\n old_state {old_state}\n new_state: {new_state}')
 
             # Cannot heal above max hp
             if self.effect == "hp":
@@ -80,14 +78,29 @@ class Action:
             new_states["target"][self.effect] = (
                 new_state if new_state >= 0 else 0
             )
+        else:
+            print('nuthing happned')
 
         return new_states
 
-    def roll(self, roll, rand):
-        # Returns either a random die roll, or the expected value of that die roll
-        if rand == "random":
-            return random.randint(1, roll)
+    def action_expectation(self, target) -> dict:
+        # What is expectation of an action? P(damage)*E(damage)
+
+        new_states = {
+            "actor": {**self.actor.states, **{"hp": self.actor.hp}},
+            "target": {**target.states, **{"hp": target.hp}}
+        }
+
+        add_to_roll = (
+            self.actor.stats[self.attack_modifier]
+            if self.attack_modifier != "none" else 0
+        )
+
+        if self.effect != "hp":
+            return new_states
         else:
-            return (roll+1)//2
-        # @Thomas I don't see a problem with expected value being a float? -- Valerie
-        # Jk I think I found it lmao
+            p_damage = randint(
+                add_to_roll, add_to_roll + self.attack_roll
+            ).sf(target.stats["AC"]) # survival function = 1 - cdf
+
+        return new_states

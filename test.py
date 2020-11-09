@@ -11,7 +11,7 @@ good_guy = Agent()
 
 good_guy, bad_guy, encounter_stats = encounter(good_guy, bad_guy, 100)
 
-print(encounter_stats["foe reactions"])
+# print(encounter_stats["foe reactions"])
 
 good_guy, bad_guy, encounter_stats = encounter(good_guy, bad_guy, 100,
    forward_search_and_reward_kwargs = {
