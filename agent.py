@@ -33,10 +33,9 @@ class Agent:
     def act(self, policy_step):
 
         if policy_step == "toggle shield":
-            self.states["shield"] = 1 - self.states["shield"]  # flips the bit
+            self.states["shield"] = 2 - self.states["shield"]  # flips the bit
             if self.states["shield"]:
-                self.stats["AC"] += 1 # TODO: Make this 2 again?
-                
+                self.stats["AC"] += 2
                 action = Action(self, target_id="self")
             elif not self.states['shield']:
                 self.stats["AC"] -= 1
